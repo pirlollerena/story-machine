@@ -1,1 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story Machine — LinkedIn</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #212121;
+    --surface: #2f2f2f;
+    --border: #3f3f3f;
+    --border-focus: #5a5a5a;
+    --text: #ececec;
+    --text-muted: #8e8ea0;
+    --text-dim: #6e6e80;
+    --accent: #10a37f;
+    --accent-dim: rgba(16,163,127,0.08);
+    --accent-border: rgba(16,163,127,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 80px;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    width: 100%;
+    max-width: 660px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 0;
+    margin-bottom: 44px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 14px; font-weight: 600;
+    letter-spacing: -0.3px; color: var(--text);
+  }
+
+  .logo-text span { color: var(--text-muted); font-weight: 300; }
+
+  .step-pill {
+    font-size: 12px; color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 5px 13px; border-radius: 99px;
+  }
+
+  .step-pill strong { color: var(--text); font-weight: 500; }
+
+  /* PROGRESS */
+  .progress-wrap {
+    width: 100%; max-width: 660px;
+    margin-bottom: 48px;
+  }
+
+  .progress-dots { display: flex; gap: 5px; }
+
+  .dot {
+    height: 2px; flex: 1; border-radius: 99px;
+    background: var(--border);
+    transition: background 0.35s ease;
+  }
+
+  .dot.done { background: var(--accent); }
+  .dot.active { background: var(--accent); opacity: 0.45; }
+
+  /* CARD */
+  .card {
+    width: 100%; max-width: 660px;
+    display: none;
+    animation: fadeUp 0.32s ease both;
+  }
+
+  .card.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 1.3px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+
+  .phase-tag::before {
+    content: ''; display: inline-block;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .q-title {
+    font-size: clamp(20px, 3vw, 25px);
+    font-weight: 600; line-height: 1.35;
+    letter-spacing: -0.4px; margin-bottom: 8px;
+  }
+
+  .q-hint {
+    font-size: 13px; color: var(--text-muted);
+    font-weight: 300; line-height: 1.65; margin-bottom: 24px;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13.5px; font-weight: 300;
+    line-height: 1.8; color: var(--text);
+    resize: none; outline: none; min-height: 140px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  textarea:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+
+  textarea::placeholder { color: var(--text-dim); }
+
+  .insight {
+    margin-top: 16px; padding: 14px 18px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 9px;
+    display: flex; gap: 11px; align-items: flex-start;
+  }
+
+  .insight-icon { font-size: 13px; margin-top: 2px; flex-shrink: 0; }
+
+  .insight-body strong {
+    display: block; font-size: 10px;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 4px;
+  }
+
+  .insight-body p {
+    font-size: 12px; color: var(--text-muted);
+    line-height: 1.65; font-weight: 300;
+  }
+
+  /* NAV */
+  .nav {
+    width: 100%; max-width: 660px;
+    display: flex; align-items: center;
+    justify-content: space-between; margin-top: 24px;
+  }
+
+  .btn-ghost {
+    background: none; border: 1px solid var(--border);
+    padding: 10px 20px; border-radius: 8px;
+    font-family: 'Sora', sans-serif; font-size: 13px;
+    color: var(--text-muted); cursor: pointer;
+    transition: all 0.18s; font-weight: 400;
+  }
+
+  .btn-ghost:hover { border-color: var(--border-focus); color: var(--text); }
+
+  .btn-primary {
+    background: var(--accent); border: none;
+    padding: 11px 26px; border-radius: 8px;
+    font-family: 'Sora', sans-serif; font-size: 13px;
+    font-weight: 500; color: #fff; cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .btn-primary:hover {
+    background: #0d8f6f;
+    box-shadow: 0 4px 18px rgba(16,163,127,0.28);
+  }
+
+  /* RESULT */
+  .result {
+    width: 100%; max-width: 660px;
+    display: none;
+    animation: fadeUp 0.38s ease both;
+  }
+
+  .result.active { display: block; }
+
+  .result-title {
+    font-size: 22px; font-weight: 600;
+    letter-spacing: -0.4px; margin-bottom: 6px;
+  }
+
+  .result-sub {
+    font-size: 13px; color: var(--text-muted);
+    font-weight: 300; margin-bottom: 28px;
+  }
+
+  .structure {
+    display: flex; border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; margin-bottom: 24px;
+  }
+
+  .s-step {
+    flex: 1; padding: 13px 8px; text-align: center;
+    border-right: 1px solid var(--border); background: var(--surface);
+  }
+
+  .s-step:last-child { border-right: none; }
+  .s-step .s-em { font-size: 15px; margin-bottom: 5px; }
+  .s-step .s-name { font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-dim); }
+
+  .post-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; margin-bottom: 18px;
+  }
+
+  .post-box-header {
+    padding: 12px 18px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .post-box-header span { font-size: 11px; color: var(--text-dim); }
+
+  .mac-dots { display: flex; gap: 5px; }
+  .mac-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--border); display: block; }
+
+  .post-text {
+    padding: 22px 22px;
+    font-size: 13.5px; line-height: 1.9;
+    color: var(--text); white-space: pre-wrap; font-weight: 300;
+  }
+
+  .tips {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 24px;
+  }
+
+  .tip {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 16px 16px;
+  }
+
+  .tip .t-num {
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-dim); font-weight: 500; margin-bottom: 7px;
+  }
+
+  .tip h4 { font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+  .tip p { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+  .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  .copied {
+    font-size: 12px; color: var(--accent); font-weight: 500;
+    display: none; align-items: center; gap: 5px;
+  }
+
+  .copied.show { display: flex; }
+
+  @media (max-width: 520px) {
+    .tips { grid-template-columns: 1fr; }
+    .structure { flex-wrap: wrap; }
+    .s-step { min-width: 33%; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon">✍️</div>
+    <div class="logo-text">Story Machine <span>for LinkedIn</span></div>
+  </div>
+  <div class="step-pill" id="stepPill">Paso <strong>1</strong> de 7</div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-dots" id="dots"></div>
+</div>
+
+<!-- Q1 -->
+<div class="card active" data-step="1">
+  <div class="phase-tag">El Detonador</div>
+  <h2 class="q-title">¿Qué pasó exactamente?</h2>
+  <p class="q-hint">Describe el momento, la situación, la llamada, el error, la decisión. Solo los hechos, sin interpretación todavía.</p>
+  <textarea placeholder="Ej: Un cliente llamó a las 7pm diciéndome que cancelaba el proyecto después de 3 meses de trabajo..."></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>LinkedIn premia lo concreto. Una situación específica genera más credibilidad que cualquier afirmación genérica. Sé cinematográfico: lugar, tiempo, personajes.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card" data-step="2">
+  <div class="phase-tag">La Tensión</div>
+  <h2 class="q-title">¿Qué creías que era lo correcto en ese momento?</h2>
+  <p class="q-hint">Tu suposición inicial, tu plan, tu certeza. Lo que pensabas antes de que algo cambiara.</p>
+  <textarea placeholder="Ej: Asumí que el problema era el precio. Bajé la propuesta y esperé a que aceptara..."></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>Mostrar tu pensamiento anterior humaniza la historia. Nadie conecta con quien siempre tuvo la razón — conectan con quien tuvo que evolucionar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card" data-step="3">
+  <div class="phase-tag">El Quiebre</div>
+  <h2 class="q-title">¿Qué salió diferente a lo que esperabas?</h2>
+  <p class="q-hint">El giro. El momento en que la realidad chocó con tu expectativa.</p>
+  <textarea placeholder="Ej: El cliente no volvió a contestar. Semanas después lo vi trabajando con mi competencia..."></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>Este es el corazón emocional del post. La fricción es lo que mantiene al lector leyendo. Sin tensión, no hay historia — solo un resumen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card" data-step="4">
+  <div class="phase-tag">El Insight</div>
+  <h2 class="q-title">¿Qué entendiste después que no entendías antes?</h2>
+  <p class="q-hint">La lección real. No la motivacional, la tuya. Puede ser incómoda, contraintuitiva o simple.</p>
+  <textarea placeholder="Ej: Entendí que no estaba vendiendo mal — estaba hablando con personas que no eran mi cliente ideal..."></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>Este es el momento de pensamiento líder. Tu insight genuino es lo que te diferencia. Evita clichés — busca la verdad que solo tú, con tu experiencia, podías ver.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card" data-step="5">
+  <div class="phase-tag">El Cambio</div>
+  <h2 class="q-title">¿Qué hiciste diferente a partir de ese momento?</h2>
+  <p class="q-hint">La acción concreta que tomaste. Convierte la reflexión en autoridad práctica.</p>
+  <textarea placeholder="Ej: Dejé de bajar precios y empecé a calificar prospectos con 3 preguntas antes de cualquier llamada..."></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>Los lectores siguen a quien hace, no solo a quien piensa. Un cambio de comportamiento concreto demuestra que la lección fue real.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card" data-step="6">
+  <div class="phase-tag">El Espejo</div>
+  <h2 class="q-title">¿A quién le está pasando esto ahora mismo sin darse cuenta?</h2>
+  <p class="q-hint">Describe a tu lector ideal en esta situación. Hazlo sentir visto, no juzgado.</p>
+  <textarea placeholder="Ej: Si eres consultor y sientes que tus propuestas son buenas pero no cierras, probablemente no es tu oferta..."></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>El lector comparte lo que lo hace sentir entendido. Esta pregunta transforma tu historia personal en un espejo para tu audiencia — y dispara el engagement.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card" data-step="7">
+  <div class="phase-tag">El Anzuelo</div>
+  <h2 class="q-title">¿Cuál sería la primera línea que haría a alguien dejar de scrollear?</h2>
+  <p class="q-hint">Una sola oración. Puede ser lo más dramático, lo más contraintuitivo, o una pregunta directa. No expliques — provoca.</p>
+  <textarea placeholder="Ej: Perdí un cliente de $15,000 por no cobrar lo suficiente..." style="min-height: 90px;"></textarea>
+  <div class="insight">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>Por qué funciona</strong>
+      <p>En LinkedIn solo ves las primeras líneas antes del "ver más". Tu primera oración es el 80% del trabajo. Escríbela al final, cuando ya conoces toda la historia.</p>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="nav">
+  <button class="btn-ghost" id="btnBack" onclick="prevStep()">← Atrás</button>
+  <button class="btn-primary" onclick="nextStep()">Continuar →</button>
+</div>
+
+<!-- RESULT -->
+<div class="result" id="result">
+  <div class="phase-tag">Post listo</div>
+  <h2 class="result-title">Tu borrador de LinkedIn</h2>
+  <p class="result-sub">Edita con tu voz, ajusta lo que no suene a ti, y publica.</p>
+
+  <div class="structure">
+    <div class="s-step"><div class="s-em">🪝</div><div class="s-name">Anzuelo</div></div>
+    <div class="s-step"><div class="s-em">🎬</div><div class="s-name">Escena</div></div>
+    <div class="s-step"><div class="s-em">💥</div><div class="s-name">Quiebre</div></div>
+    <div class="s-step"><div class="s-em">💡</div><div class="s-name">Insight</div></div>
+    <div class="s-step"><div class="s-em">🎯</div><div class="s-name">Espejo</div></div>
+  </div>
+
+  <div class="post-box">
+    <div class="post-box-header">
+      <div class="mac-dots"><i></i><i></i><i></i></div>
+      <span>Borrador — edita antes de publicar</span>
+    </div>
+    <div class="post-text" id="postOutput"></div>
+  </div>
+
+  <div class="tips">
+    <div class="tip">
+      <div class="t-num">01</div>
+      <h4>Edita con tu voz</h4>
+      <p>Léelo en voz alta. Si no suena como tú, cámbialo. La autenticidad no se finge.</p>
+    </div>
+    <div class="tip">
+      <div class="t-num">02</div>
+      <h4>Párrafos cortos</h4>
+      <p>En LinkedIn cada oración puede ser un párrafo. El espacio blanco invita a seguir leyendo.</p>
+    </div>
+    <div class="tip">
+      <div class="t-num">03</div>
+      <h4>Sin hashtags de relleno</h4>
+      <p>Máximo 3 hashtags relevantes. Los decorativos restan credibilidad.</p>
+    </div>
+    <div class="tip">
+      <div class="t-num">04</div>
+      <h4>Publica sin perfección</h4>
+      <p>El post bueno hoy gana al post perfecto en dos semanas.</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="copyPost()">Copiar post</button>
+    <button class="btn-ghost" onclick="restart()">↺ Nueva historia</button>
+    <span class="copied" id="copied">✓ Copiado</span>
+  </div>
+</div>
+
+<script>
+  let step = 1;
+  const total = 7;
+  const answers = {};
+
+  // Build dots
+  const dotsEl = document.getElementById('dots');
+  for (let i = 1; i <= total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot'; d.id = 'dot' + i;
+    dotsEl.appendChild(d);
+  }
+
+  function syncDots() {
+    for (let i = 1; i <= total; i++) {
+      const d = document.getElementById('dot' + i);
+      d.className = 'dot' + (i < step ? ' done' : i === step ? ' active' : '');
+    }
+  }
+
+  function syncPill() {
+    document.getElementById('stepPill').innerHTML = `Paso <strong>${step}</strong> de ${total}`;
+  }
+
+  function getVal() {
+    return document.querySelector(`.card[data-step="${step}"] textarea`)?.value.trim() || '';
+  }
+
+  function save() { const v = getVal(); if (v) answers[step] = v; }
+
+  function show(n) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    const card = document.querySelector(`.card[data-step="${n}"]`);
+    if (card) {
+      card.classList.add('active');
+      const ta = card.querySelector('textarea');
+      if (ta && answers[n]) ta.value = answers[n];
+    }
+    document.getElementById('btnBack').style.visibility = n === 1 ? 'hidden' : 'visible';
+    syncDots(); syncPill();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextStep() {
+    save();
+    if (!answers[step]) {
+      const ta = document.querySelector(`.card[data-step="${step}"] textarea`);
+      ta.style.borderColor = '#ef4444';
+      ta.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.1)';
+      ta.focus();
+      setTimeout(() => { ta.style.borderColor = ''; ta.style.boxShadow = ''; }, 1600);
+      return;
+    }
+    if (step < total) { step++; show(step); }
+    else showResult();
+  }
+
+  function prevStep() {
+    save();
+    if (step > 1) { step--; show(step); }
+  }
+
+  function showResult() {
+    document.getElementById('nav').style.display = 'none';
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    document.getElementById('stepPill').innerHTML = '<strong>✓</strong> Listo';
+    for (let i = 1; i <= total; i++) document.getElementById('dot' + i).className = 'dot done';
+
+    const a = answers;
+    const lc = s => s ? s.charAt(0).toLowerCase() + s.slice(1) : '';
+
+    document.getElementById('postOutput').textContent =
+`${a[7] || '[primera línea]'}
+
+———
+
+${a[1] || '[situación]'}
+
+Yo pensaba que ${lc(a[2] || '[creencia]')}
+
+Pero ${lc(a[3] || '[giro]')}
+
+Ahí entendí algo que cambió cómo trabajo:
+
+${a[4] || '[insight]'}
+
+Desde ese día, ${lc(a[5] || '[cambio]')}
+
+———
+
+${a[6] || '[espejo para el lector]'}
+
+¿Lo habías visto así antes?`;
+
+    document.getElementById('result').classList.add('active');
+    setTimeout(() => document.getElementById('result').scrollIntoView({ behavior: 'smooth' }), 80);
+  }
+
+  function copyPost() {
+    navigator.clipboard.writeText(document.getElementById('postOutput').textContent).then(() => {
+      const el = document.getElementById('copied');
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2000);
+    });
+  }
+
+  function restart() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('textarea').forEach(t => t.value = '');
+    step = 1;
+    document.getElementById('nav').style.display = 'flex';
+    document.getElementById('result').classList.remove('active');
+    show(1);
+  }
+
+  show(1);
+</script>
+</body>
+</html>
 
