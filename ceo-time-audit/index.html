@@ -91,21 +91,57 @@
     line-height: 1.75; margin-bottom: 40px; max-width: 520px;
   }
 
-  .how-it-works {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 10px; margin-bottom: 40px;
+  /* VERTICAL STEPPER */
+  .stepper {
+    display: flex; flex-direction: column;
+    gap: 0; margin-bottom: 44px;
   }
 
-  .how-card {
+  .stepper-item {
+    display: flex; align-items: stretch; gap: 16px;
+  }
+
+  .stepper-left {
+    display: flex; flex-direction: column; align-items: center;
+    flex-shrink: 0; width: 32px;
+  }
+
+  .stepper-circle {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--text-muted);
+    position: relative; z-index: 1;
+    transition: all 0.2s;
   }
-  .how-card .hc-num {
-    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
-    color: var(--text-dim); font-weight: 500; margin-bottom: 8px;
+
+  .stepper-item:first-child .stepper-circle {
+    background: var(--accent); border-color: var(--accent);
+    color: #fff;
   }
-  .how-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 5px; }
-  .how-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+  .stepper-line {
+    width: 1px; flex: 1; min-height: 16px;
+    background: linear-gradient(to bottom, var(--accent-border), var(--border));
+    margin: 4px 0;
+  }
+
+  .stepper-item:last-child .stepper-line { display: none; }
+
+  .stepper-content {
+    padding: 4px 0 20px; flex: 1;
+  }
+
+  .stepper-title {
+    font-size: 13px; font-weight: 500; color: var(--text);
+    margin-bottom: 3px; line-height: 1.35;
+  }
+
+  .stepper-item:first-child .stepper-title { color: var(--accent); }
+
+  .stepper-desc {
+    font-size: 12px; color: var(--text-dim); font-weight: 300; line-height: 1.6;
+  }
 
   .btn-start {
     background: var(--accent); border: none; padding: 14px 32px; border-radius: 8px;
@@ -140,12 +176,10 @@
   .question-block { margin-bottom: 20px; }
   .q-label {
     font-size: 13.5px; font-weight: 400; line-height: 1.5;
-    margin-bottom: 10px; color: var(--text);
+    margin-bottom: 10px; color: var(--text); transition: color 0.2s;
   }
 
-  .custom-select {
-    position: relative; width: 100%;
-  }
+  .custom-select { position: relative; width: 100%; }
 
   .custom-select select {
     width: 100%; background: var(--surface); border: 1px solid var(--border);
@@ -153,7 +187,7 @@
     font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 300;
     color: var(--text); outline: none; cursor: pointer;
     appearance: none; -webkit-appearance: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
 
   .custom-select select:focus {
@@ -172,7 +206,26 @@
     border-right: 5px solid transparent;
     border-top: 5px solid var(--text-dim);
     pointer-events: none;
+    transition: border-top-color 0.2s;
   }
+
+  /* confirmed state */
+  .question-block.confirmed .custom-select select {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .question-block.confirmed .custom-select::after { border-top-color: var(--accent); }
+  .question-block.confirmed .q-label { color: var(--text-muted); }
+
+  .q-check {
+    display: none; position: absolute; right: 36px; top: 50%;
+    transform: translateY(-50%);
+    width: 16px; height: 16px; background: var(--accent);
+    border-radius: 50%; align-items: center; justify-content: center; z-index: 1;
+  }
+  .q-check svg { width: 9px; height: 9px; }
+  .question-block.confirmed .q-check { display: flex; }
 
   /* CHECKBOX QUESTIONS */
   .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
@@ -393,26 +446,46 @@
   <p class="welcome-desc">
     Este diagnóstico analiza cómo distribuyes tu tiempo como CEO — entre trabajo estratégico, operativo y de fricción — y te entrega un score de eficiencia con recomendaciones concretas.
   </p>
-  <div class="how-it-works">
-    <div class="how-card">
-      <div class="hc-num">01</div>
-      <h4>4 dimensiones</h4>
-      <p>Evaluamos tu alineación de rol, actividad diaria, delegación y gestión de energía.</p>
+  <div class="stepper">
+    <div class="stepper-item">
+      <div class="stepper-left">
+        <div class="stepper-circle">1</div>
+        <div class="stepper-line"></div>
+      </div>
+      <div class="stepper-content">
+        <div class="stepper-title">Elige tus respuestas</div>
+        <div class="stepper-desc">4 dimensiones, 12 preguntas. Responde según lo que realmente ocurre, no lo ideal.</div>
+      </div>
     </div>
-    <div class="how-card">
-      <div class="hc-num">02</div>
-      <h4>Score ponderado</h4>
-      <p>El CEO Efficiency Index™ te ubica en un rango del 0 al 100 con tu perfil exacto.</p>
+    <div class="stepper-item">
+      <div class="stepper-left">
+        <div class="stepper-circle">2</div>
+        <div class="stepper-line"></div>
+      </div>
+      <div class="stepper-content">
+        <div class="stepper-title">Calculamos tu CEO Efficiency Index™</div>
+        <div class="stepper-desc">Un score ponderado que mide cuánto de tu tiempo va a trabajo estratégico vs. fricción.</div>
+      </div>
     </div>
-    <div class="how-card">
-      <div class="hc-num">03</div>
-      <h4>Red flags y quick wins</h4>
-      <p>Identifica los hábitos que te están costando más y los que ya están funcionando.</p>
+    <div class="stepper-item">
+      <div class="stepper-left">
+        <div class="stepper-circle">3</div>
+        <div class="stepper-line"></div>
+      </div>
+      <div class="stepper-content">
+        <div class="stepper-title">Identificamos tu perfil</div>
+        <div class="stepper-desc">CEO Escalable, Operador Estratégico, Líder Estirado o Cuello de Botella.</div>
+      </div>
     </div>
-    <div class="how-card">
-      <div class="hc-num">04</div>
-      <h4>5 minutos</h4>
-      <p>12 preguntas rápidas. Sin registros, sin email. Solo tu diagnóstico.</p>
+    <div class="stepper-item">
+      <div class="stepper-left">
+        <div class="stepper-circle">4</div>
+        <div class="stepper-line"></div>
+      </div>
+      <div class="stepper-content">
+        <div class="stepper-title">Red flags y quick wins personalizados</div>
+        <div class="stepper-desc">Los hábitos que más te cuestan y los que ya están funcionando a tu favor.</div>
+      </div>
     </div>
   </div>
   <button class="btn-start" onclick="startAudit()">
@@ -430,7 +503,7 @@
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia bloqueas tiempo para trabajo profundo y enfocado?</div>
     <div class="custom-select">
-      <select id="q1" onchange="updateNav()">
+      <select id="q1" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Semanalmente</option>
         <option value="3">La mayoría de semanas</option>
@@ -438,13 +511,14 @@
         <option value="1">Raramente</option>
         <option value="0">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia dedicas tiempo a estrategia y visión de largo plazo?</div>
     <div class="custom-select">
-      <select id="q2" onchange="updateNav()">
+      <select id="q2" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Semanalmente</option>
         <option value="3">La mayoría de semanas</option>
@@ -452,6 +526,7 @@
         <option value="1">Raramente</option>
         <option value="0">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
@@ -460,7 +535,7 @@
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia lideras o asistes a reuniones de equipo programadas?</div>
     <div class="custom-select">
-      <select id="q3" onchange="updateNav()">
+      <select id="q3" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Semanalmente</option>
         <option value="3">La mayoría de semanas</option>
@@ -468,13 +543,14 @@
         <option value="1">Raramente</option>
         <option value="0">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia orientas a tu equipo para acelerar resultados?</div>
     <div class="custom-select">
-      <select id="q4" onchange="updateNav()">
+      <select id="q4" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Semanalmente</option>
         <option value="3">La mayoría de semanas</option>
@@ -482,6 +558,7 @@
         <option value="1">Raramente</option>
         <option value="0">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
@@ -490,7 +567,7 @@
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia te sacan de foco problemas inesperados?</div>
     <div class="custom-select">
-      <select id="q5" onchange="updateNav()">
+      <select id="q5" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="0">Semanalmente</option>
         <option value="1">La mayoría de semanas</option>
@@ -498,13 +575,14 @@
         <option value="3">Raramente</option>
         <option value="4">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia haces tareas que debería hacer tu equipo?</div>
     <div class="custom-select">
-      <select id="q6" onchange="updateNav()">
+      <select id="q6" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="0">Semanalmente</option>
         <option value="1">La mayoría de semanas</option>
@@ -512,6 +590,7 @@
         <option value="3">Raramente</option>
         <option value="4">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 </div>
@@ -565,7 +644,7 @@
   <div class="question-block">
     <div class="q-label">¿Qué tan seguro estás de las decisiones de tu equipo sin tu validación?</div>
     <div class="custom-select">
-      <select id="q7" onchange="updateNav()">
+      <select id="q7" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Totalmente — confío plenamente</option>
         <option value="3">Muy seguro</option>
@@ -573,13 +652,14 @@
         <option value="1">Algo inseguro</option>
         <option value="0">Nada — necesito validar todo</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia haces coaching o mentorías a tus reportes directos?</div>
     <div class="custom-select">
-      <select id="q8" onchange="updateNav()">
+      <select id="q8" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Semanalmente</option>
         <option value="3">La mayoría de semanas</option>
@@ -587,6 +667,7 @@
         <option value="1">Raramente</option>
         <option value="0">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
@@ -595,7 +676,7 @@
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia redefines o clarificas responsabilidades del equipo?</div>
     <div class="custom-select">
-      <select id="q9" onchange="updateNav()">
+      <select id="q9" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="0">Semanalmente</option>
         <option value="1">La mayoría de semanas</option>
@@ -603,13 +684,14 @@
         <option value="3">Raramente</option>
         <option value="4">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia haces seguimiento de tareas delegadas?</div>
     <div class="custom-select">
-      <select id="q10" onchange="updateNav()">
+      <select id="q10" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="4">Semanalmente</option>
         <option value="3">La mayoría de semanas</option>
@@ -617,13 +699,14 @@
         <option value="1">Raramente</option>
         <option value="0">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia tomas decisiones que debería tomar tu equipo?</div>
     <div class="custom-select">
-      <select id="q11" onchange="updateNav()">
+      <select id="q11" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="0">Semanalmente</option>
         <option value="1">La mayoría de semanas</option>
@@ -631,13 +714,14 @@
         <option value="3">Raramente</option>
         <option value="4">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="q-label">¿Con qué frecuencia rehaces trabajo en lugar de dar feedback?</div>
     <div class="custom-select">
-      <select id="q12" onchange="updateNav()">
+      <select id="q12" onchange="confirmBlock(this)">
         <option value="">Selecciona una opción</option>
         <option value="0">Semanalmente</option>
         <option value="1">La mayoría de semanas</option>
@@ -645,6 +729,7 @@
         <option value="3">Raramente</option>
         <option value="4">Nunca</option>
       </select>
+      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     </div>
   </div>
 </div>
@@ -861,6 +946,16 @@ function startAudit() {
 
 function toggleCB(el) {
   el.classList.toggle('checked');
+  updateNav();
+}
+
+function confirmBlock(select) {
+  const block = select.closest('.question-block');
+  if (select.value !== '') {
+    block.classList.add('confirmed');
+  } else {
+    block.classList.remove('confirmed');
+  }
   updateNav();
 }
 
@@ -1082,6 +1177,7 @@ function copyResult() {
 function restart() {
   currentSection = 0;
   document.querySelectorAll('select').forEach(s => s.value = '');
+  document.querySelectorAll('.question-block').forEach(b => b.classList.remove('confirmed'));
   document.querySelectorAll('.checkbox-item').forEach(el => el.classList.remove('checked'));
   showScreen('welcome');
   document.getElementById('nav').style.display = 'none';
