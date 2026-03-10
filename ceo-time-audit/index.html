@@ -374,7 +374,7 @@
     <a href="https://skillselling.com" target="_blank" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
       <img src="" alt="Skill Selling" id="logoImg">
       <span style="border-left:1px solid var(--border); padding-left:14px;">
-        <span style="font-size:14px; font-weight:600; color:var(--text); letter-spacing:-0.3px;">CEO Time Audit </span><span style="font-size:14px; font-weight:300; color:var(--text-muted);">by Skill Selling</span>
+        <span style="font-size:14px; font-weight:600; color:var(--text); letter-spacing:-0.3px;">CEO Time Audit</span>
       </span>
     </a>
   </div>
@@ -423,7 +423,7 @@
 
 <!-- ── SECTION 1: ROLE ALIGNMENT ── -->
 <div class="screen" id="screen-s1">
-  <div class="phase-tag">Sección 1 de 4</div>
+  <div class="phase-tag">Paso 1 de 4</div>
   <h2 class="screen-title">Alineación de Rol</h2>
   <p class="screen-hint">¿Tu tiempo va a donde más valor aportas? Responde según lo que realmente ocurre, no lo ideal.</p>
 
@@ -518,7 +518,7 @@
 
 <!-- ── SECTION 2: DAILY ACTIVITY ── -->
 <div class="screen" id="screen-s2">
-  <div class="phase-tag">Sección 2 de 4</div>
+  <div class="phase-tag">Paso 2 de 4</div>
   <h2 class="screen-title">Patrón de Actividad Diaria</h2>
   <p class="screen-hint">Marca los hábitos que describes como tuyos actualmente (no los que quisieras tener).</p>
 
@@ -558,7 +558,7 @@
 
 <!-- ── SECTION 3: DELEGATION ── -->
 <div class="screen" id="screen-s3">
-  <div class="phase-tag">Sección 3 de 4</div>
+  <div class="phase-tag">Paso 3 de 4</div>
   <h2 class="screen-title">Delegación y Claridad de Equipo</h2>
   <p class="screen-hint">¿Tu equipo opera con autonomía o depende de ti para avanzar?</p>
 
@@ -651,7 +651,7 @@
 
 <!-- ── SECTION 4: FOCUS & ENERGY ── -->
 <div class="screen" id="screen-s4">
-  <div class="phase-tag">Sección 4 de 4</div>
+  <div class="phase-tag">Paso 4 de 4</div>
   <h2 class="screen-title">Foco y Gestión de Energía</h2>
   <p class="screen-hint">¿Tus hábitos protegen tu capacidad cognitiva o la drenan antes de que empiece el día?</p>
 
@@ -854,7 +854,7 @@ function startAudit() {
   currentSection = 0;
   showScreen('s1');
   document.getElementById('nav').style.display = 'flex';
-  document.getElementById('stepPill').innerHTML = 'Sección <strong>1</strong> de 4';
+  document.getElementById('stepPill').innerHTML = 'Paso <strong>1</strong> de 4';
   syncDots(0);
   updateNav();
 }
@@ -892,7 +892,7 @@ function nextStep() {
     currentSection++;
     const sec = SECTIONS[currentSection];
     showScreen(sec);
-    document.getElementById('stepPill').innerHTML = `Sección <strong>${currentSection + 1}</strong> de 4`;
+    document.getElementById('stepPill').innerHTML = `Paso <strong>${currentSection + 1}</strong> de 4`;
     syncDots(currentSection);
     updateNav();
   } else {
@@ -909,7 +909,7 @@ function prevStep() {
     currentSection--;
     const sec = SECTIONS[currentSection];
     showScreen(sec);
-    document.getElementById('stepPill').innerHTML = `Sección <strong>${currentSection + 1}</strong> de 4`;
+    document.getElementById('stepPill').innerHTML = `Paso <strong>${currentSection + 1}</strong> de 4`;
     syncDots(currentSection);
     updateNav();
   } else {
