@@ -299,7 +299,7 @@
 <div class="screen active" id="screen-welcome">
   <div class="welcome-badge">Nueva herramienta</div>
   <h1 class="welcome-title">Convierte cualquier historia<br>en contenido para <em>LinkedIn</em></h1>
-  <p class="welcome-desc">La Story Machine te guía con 7 preguntas simples para transformar una anécdota real en un post que engancha, posiciona y genera conversación — sin perder tu voz.</p>
+  <p class="welcome-desc">La Story Machine te guía con 5 preguntas simples para transformar una anécdota real en un post que engancha, posiciona y genera conversación — sin perder tu voz.</p>
 
   <div class="how-it-works">
     <div class="how-card">
@@ -309,7 +309,7 @@
     </div>
     <div class="how-card">
       <div class="hc-num">Paso 02</div>
-      <h4>Responde 7 preguntas</h4>
+      <h4>Responde 5 preguntas</h4>
       <p>Preguntas simples diseñadas para sacar lo mejor de tu historia.</p>
     </div>
     <div class="how-card">
@@ -331,7 +331,7 @@
 
 <!-- SCREEN: TONE -->
 <div class="screen" id="screen-tone">
-  <div class="phase-tag">Paso 1 de 8</div>
+  <div class="phase-tag">Paso 1 de 6</div>
   <h2 class="screen-title">¿Qué tipo de historia quieres contar?</h2>
   <p class="screen-hint">Elige la que mejor describe tu anécdota. Esto define las preguntas que recibirás.</p>
 
@@ -424,303 +424,233 @@ document.getElementById('logoImg').src = 'data:image/png;base64,' + LOGO_B64;
 const questions = {
   error: [
     {
-      phase: "El Error · Pregunta 1 de 7",
-      title: "¿Qué decisión tomaste que resultó ser un error?",
-      hint: "Sé específico. ¿Qué hiciste, cuándo, en qué contexto?",
-      placeholder: "Ej: Acepté un proyecto sin definir el alcance por escrito porque confié en la palabra del cliente...",
-      insight: "La especificidad genera credibilidad. Un error vago no conecta — uno concreto hace que el lector piense 'yo también haría eso'."
+      phase: "La Escena",
+      title: "¿Cuál fue el momento exacto en que te diste cuenta de que algo estaba muy mal?",
+      hint: "Dónde estabas, qué pasaba, qué sentiste. No lo resumas — revívelo.",
+      placeholder: "Ej: Eran las 11pm y revisé el contrato. Había trabajado 3 semanas sin un acuerdo por escrito. Mi estómago se cayó al piso...",
+      insight: "Una escena específica es 10x más memorable que un resumen. El lector no necesita datos — necesita visualizarte en ese momento."
     },
     {
-      phase: "El Error · Pregunta 2 de 7",
-      title: "¿Por qué en ese momento creías que era lo correcto?",
-      hint: "Tu lógica interna de ese momento. Lo que justificaba tu decisión.",
-      placeholder: "Ej: Pensé que era mejor ser flexible para ganar el cliente. No quería perder la oportunidad...",
-      insight: "Mostrar tu razonamiento anterior humaniza la historia. El lector entiende cómo llegaste ahí — y se ve a sí mismo en tu lugar."
+      phase: "La Trampa",
+      title: "¿Por qué cualquier persona razonable habría hecho exactamente lo mismo que tú?",
+      hint: "La lógica interna que te llevó ahí. No te justifiques — explica cómo tenía sentido en ese momento.",
+      placeholder: "Ej: Confié porque llevábamos 2 años trabajando juntos. Nunca había habido un problema. ¿Para qué un contrato entre amigos?...",
+      insight: "Esta es la pregunta que genera más empatía. Cuando el lector piensa 'yo también lo habría hecho', la historia deja de ser tuya y se convierte en suya."
     },
     {
-      phase: "El Error · Pregunta 3 de 7",
-      title: "¿Qué pasó como consecuencia del error?",
-      hint: "El costo real. Puede ser económico, de tiempo, de relación, de reputación.",
-      placeholder: "Ej: El proyecto creció sin control, trabajé el doble de horas y cobré lo mismo. Terminé resentido y agotado...",
-      insight: "Las consecuencias concretas crean impacto emocional. Sin un costo real, no hay historia — solo una anécdota sin peso."
+      phase: "El Costo",
+      title: "¿Qué perdiste exactamente — el número más concreto y doloroso que puedas nombrar?",
+      hint: "Dinero, tiempo, oportunidades, reputación. El número específico es lo que hace que el post se comparta.",
+      placeholder: "Ej: Perdí $8,400 y 6 semanas de trabajo. Pero lo que más dolió fue explicarle a mi familia por qué ese mes no había ingreso...",
+      insight: "Sin costo concreto, no hay historia — solo una anécdota. El número exacto es lo que convierte una experiencia personal en un post que genera miles de comentarios."
     },
     {
-      phase: "El Error · Pregunta 4 de 7",
-      title: "¿Cuál fue el momento exacto en que te diste cuenta del error?",
-      hint: "El instante de claridad. ¿Qué lo detonó?",
-      placeholder: "Ej: Fue cuando revisé mis horas y vi que había trabajado 80 horas para ganar lo equivalente a $12 la hora...",
-      insight: "Un momento específico de quiebre es más poderoso que una reflexión gradual. Da al lector una escena cinematográfica que recordará."
+      phase: "El Quiebre",
+      title: "¿Qué sabes ahora que hace que ese error sea completamente evitable — y que casi nadie te lo había dicho?",
+      hint: "El insight real, no el motivacional. Puede ser incómodo, simple, o contraintuitivo.",
+      placeholder: "Ej: Aprendí que la confianza no reemplaza la claridad. Un contrato no es desconfianza — es respeto mutuo. Nadie me lo había dicho así...",
+      insight: "La frase 'que casi nadie te lo había dicho' fuerza un insight genuino, no genérico. Si alguien lo había dicho antes, no es tu insight — es un cliché."
     },
     {
-      phase: "El Error · Pregunta 5 de 7",
-      title: "¿Qué entendiste que no entendías antes?",
-      hint: "La lección real. No la motivacional — la tuya. Puede ser incómoda.",
-      placeholder: "Ej: Entendí que la flexibilidad sin estructura no es generosidad — es falta de respeto hacia mi propio trabajo...",
-      insight: "Este es el insight de pensamiento líder. Tu verdad específica vale más que cualquier cita motivacional. Sé honesto, no perfecto."
-    },
-    {
-      phase: "El Error · Pregunta 6 de 7",
-      title: "¿Qué haces diferente hoy como resultado de ese error?",
-      hint: "El cambio concreto. La regla, el proceso, el límite que implementaste.",
-      placeholder: "Ej: Hoy no inicio ningún proyecto sin un documento de alcance firmado, sin importar cuánta confianza tenga con el cliente...",
-      insight: "Un cambio de comportamiento concreto convierte la reflexión en autoridad práctica. Demuestra que la lección fue real, no solo palabras."
-    },
-    {
-      phase: "El Error · Pregunta 7 de 7",
-      title: "¿Cuál sería la primera línea que haría a alguien dejar de scrollear?",
-      hint: "Una sola oración. Lo más dramático, lo más honesto, o lo más contraintuitivo. No expliques — provoca.",
-      placeholder: "Ej: Trabajé 80 horas por $960. Y fue completamente mi culpa.",
-      insight: "En LinkedIn solo ves las primeras líneas antes del 'ver más'. Tu primera oración es el 80% del trabajo. Escríbela al final, cuando ya conoces toda la historia."
+      phase: "El Anzuelo",
+      title: "Si pudieras mandarle un mensaje a alguien que está a punto de cometer el mismo error, ¿qué le dirías en una sola línea?",
+      hint: "No lo pienses demasiado. La primera línea que te salga, honesta y directa, es casi siempre la mejor.",
+      placeholder: "Ej: Perdí $8,400 por no firmar un contrato con alguien en quien confiaba.",
+      insight: "Esta respuesta se convierte en la primera línea de tu post. Sale natural aquí porque ya tienes toda la claridad — escribirla al inicio era el problema."
     }
   ],
   opinion: [
     {
-      phase: "La Opinión · Pregunta 1 de 7",
-      title: "¿Qué creencia popular en tu industria crees que está equivocada?",
-      hint: "La idea que todos repiten pero que en tu experiencia no funciona así.",
-      placeholder: "Ej: Todo el mundo dice que para vender más tienes que publicar todos los días en LinkedIn...",
-      insight: "Tomar una posición contraria a la narrativa dominante es lo que genera debate y posiciona como pensador independiente. Sin contraste, no hay opinión."
+      phase: "La Herejía",
+      title: "¿Qué 'verdad' de tu industria crees que es mentira — que casi nadie se atreve a cuestionar en público?",
+      hint: "No el desacuerdo suave. La posición que sabes que va a incomodar a alguien.",
+      placeholder: "Ej: Que publicar contenido todos los días en LinkedIn construye tu marca personal. En mi experiencia, hace exactamente lo contrario...",
+      insight: "Los posts de opinión más virales no son los que todos aplauden — son los que dividen. Si tu posición no incomoda a nadie, no es una posición real."
     },
     {
-      phase: "La Opinión · Pregunta 2 de 7",
-      title: "¿De dónde viene esa creencia? ¿Por qué tanta gente la repite?",
-      hint: "Muestra que entiendes el origen de la idea — no la estás ignorando, la estás cuestionando con criterio.",
-      placeholder: "Ej: Tiene sentido porque los algoritmos premian la consistencia. Y los gurús de contenido venden cursos sobre eso...",
-      insight: "Reconocer la lógica detrás de la creencia que cuestionas demuestra madurez intelectual. Evita que parezcas arrogante — pareces analítico."
+      phase: "El Momento",
+      title: "¿Cuándo lo viviste en carne propia — y qué pasó exactamente?",
+      hint: "La experiencia concreta que te llevó a esta conclusión. Sin esto, tu opinión es solo una preferencia.",
+      placeholder: "Ej: Publiqué 90 días seguidos. Mis seguidores crecieron. Pero cero clientes nuevos. Hasta que publiqué un solo post largo que trajo 3 consultas en una semana...",
+      insight: "Una opinión sin experiencia es teoría. Una opinión con experiencia es autoridad. Esta pregunta es la que separa los dos."
     },
     {
-      phase: "La Opinión · Pregunta 3 de 7",
-      title: "¿Qué experiencia concreta te llevó a pensar diferente?",
-      hint: "El momento, cliente, proyecto o resultado que cambió tu perspectiva.",
-      placeholder: "Ej: Estuve 6 meses publicando diario. Creció mi audiencia pero mis clientes vinieron de 3 posts que se volvieron virales...",
-      insight: "Una opinión sin evidencia es solo ruido. Una experiencia personal concreta la convierte en perspectiva única y difícil de refutar."
+      phase: "La Prueba",
+      title: "¿Qué resultado concreto tienes tú — o viste en otros — que contradice esa creencia popular?",
+      hint: "El número, el caso, la evidencia. Lo que hace que tu opinión sea difícil de ignorar.",
+      placeholder: "Ej: Mis últimos 4 clientes llegaron por 2 posts. Ninguno por mi frecuencia de publicación. Los posts tenían 3,000 palabras cada uno...",
+      insight: "La prueba concreta es el escudo de tu opinión. Sin ella, quien no esté de acuerdo te puede ignorar. Con ella, tiene que argumentar contra evidencia."
     },
     {
-      phase: "La Opinión · Pregunta 4 de 7",
-      title: "¿Cuál es tu posición real? ¿Qué crees tú que funciona mejor?",
-      hint: "Tu alternativa concreta. No solo critique — propón.",
-      placeholder: "Ej: Creo que 2 posts profundos al mes generan más negocio que 30 posts superficiales. La profundidad vende, la frecuencia solo da visibilidad...",
-      insight: "La opinión más poderosa no solo destruye una idea — ofrece una mejor. Eso es lo que convierte una provocación en liderazgo de pensamiento."
+      phase: "La Raíz",
+      title: "¿Por qué crees que esta idea falsa sigue viva? ¿A quién le conviene que todos la crean?",
+      hint: "Aquí está la profundidad real del post. No solo qué está mal — por qué persiste.",
+      placeholder: "Ej: Le conviene a los que venden cursos de 'consistency'. Y a LinkedIn, porque más posts = más tiempo en la plataforma. Nadie tiene incentivo en decirte la verdad...",
+      insight: "Esta pregunta convierte un post de opinión en pensamiento crítico real. Y el pensamiento crítico es lo que genera debate — y debate es lo que dispara el alcance."
     },
     {
-      phase: "La Opinión · Pregunta 5 de 7",
-      title: "¿Qué resultado concreto has visto al aplicar tu perspectiva?",
-      hint: "Datos, ejemplos, casos. Lo que hace que tu opinión sea más que una preferencia personal.",
-      placeholder: "Ej: Mis últimos 3 clientes llegaron por un solo post. Ninguno me seguía antes de leerlo...",
-      insight: "Los resultados concretos son el escudo de tu opinión. Sin ellos, es solo una preferencia. Con ellos, es una posición defendible."
-    },
-    {
-      phase: "La Opinión · Pregunta 6 de 7",
-      title: "¿A quién le está costando seguir la creencia popular?",
-      hint: "Describe a tu lector ideal que está aplicando la idea equivocada. Hazlo sentir visto, no atacado.",
-      placeholder: "Ej: Si llevas meses publicando sin ver resultados de negocio, probablemente el problema no es tu frecuencia — es tu profundidad...",
-      insight: "El lector comparte lo que lo hace sentir entendido, no lo que lo hace sentir juzgado. Habla de su situación con empatía, no superioridad."
-    },
-    {
-      phase: "La Opinión · Pregunta 7 de 7",
-      title: "¿Cuál sería la primera línea que haría a alguien dejar de scrollear?",
-      hint: "Una sola oración contraintuitiva o provocadora. Sin explicación — solo la afirmación.",
-      placeholder: "Ej: Publicar todos los días en LinkedIn está dañando tu marca personal.",
-      insight: "Las primeras palabras de un post de opinión deben ser lo suficientemente fuertes para que alguien quiera refutarte — o darte la razón. El debate es engagement."
+      phase: "El Anzuelo",
+      title: "Completa esta oración: 'Todo el mundo dice ___, pero después de ___, yo creo que ___.'",
+      hint: "No edites demasiado. La versión cruda y directa casi siempre es más poderosa que la pulida.",
+      placeholder: "Ej: Todo el mundo dice que hay que publicar todos los días, pero después de 90 días haciéndolo, yo creo que la consistencia sin profundidad es ruido.",
+      insight: "Esta estructura está en los posts de opinión más virales de LinkedIn. Establece la creencia popular, la contradice con experiencia, y toma una posición clara — todo en una línea."
     }
   ],
   metodo: [
     {
-      phase: "El Método · Pregunta 1 de 7",
-      title: "¿Qué problema específico resuelve tu método?",
-      hint: "El dolor o desafío concreto que tenías antes de desarrollar este proceso.",
-      placeholder: "Ej: Mis propuestas tardaban 3 días en prepararse y la mitad de las veces no las aceptaban...",
-      insight: "Un método sin problema es una solución sin contexto. El lector necesita reconocer el problema antes de valorar la solución."
+      phase: "El Antes",
+      title: "¿Cómo se veía tu trabajo antes de tener este método — y cuál era el costo real de no tenerlo?",
+      hint: "El caos, la improvisación, el tiempo perdido. El contraste antes/después es la estructura más guardada en LinkedIn.",
+      placeholder: "Ej: Cada propuesta me tomaba 3 días. Las preparaba desde cero, sin estructura. Cerraba 1 de cada 5. Era agotador y predecible...",
+      insight: "El antes hace que el después valga. Sin contraste, tu método parece una preferencia personal. Con contraste, parece una evolución inevitable."
     },
     {
-      phase: "El Método · Pregunta 2 de 7",
-      title: "¿Cómo lo resolvías antes? ¿Qué no funcionaba?",
-      hint: "El enfoque anterior — el caos, la improvisación, el proceso roto.",
-      placeholder: "Ej: Antes preparaba cada propuesta desde cero, adaptando el formato cada vez. Sin estructura, sin proceso...",
-      insight: "Mostrar el antes hace el después más valioso. El contraste es lo que hace que el método parezca una evolución real, no una receta inventada."
+      phase: "El Sistema",
+      title: "¿Cuáles son los pasos exactos — explicados tan simple que alguien los pueda aplicar hoy?",
+      hint: "Nómbralos con claridad. Si tienes más de 5 pasos, agrúpalos. La simplicidad no es falta de profundidad — es respeto al lector.",
+      placeholder: "Ej: 1. Diagnóstico de 3 preguntas antes de cotizar. 2. Propuesta en una sola página. 3. Llamada de 20 min solo para dudas. 4. Decisión en 48 horas...",
+      insight: "Los pasos numerados son el formato más guardado en LinkedIn. Cuanto más concreto y aplicable, más lo guardan. 'Guarda' es el indicador de viralidad más fuerte."
     },
     {
-      phase: "El Método · Pregunta 3 de 7",
-      title: "¿Cuáles son los pasos exactos de tu método? (2 a 5 pasos)",
-      hint: "El proceso concreto y repetible que usas. Nómbralos con claridad.",
-      placeholder: "Ej: 1. Diagnóstico de 3 preguntas. 2. Propuesta en una página. 3. Llamada de 20 min para resolver dudas. 4. Cierre o descarte...",
-      insight: "Los pasos numerados son el formato más guardado en LinkedIn. La especificidad de tu proceso es lo que lo convierte en autoridad — no la generalidad."
+      phase: "El Paso Invisible",
+      title: "¿Qué hace el 95% de la gente que arruina el resultado — sin darse cuenta?",
+      hint: "El error que casi todos cometen en tu proceso. Esto es lo que convierte una lista de pasos en pensamiento líder.",
+      placeholder: "Ej: Saltan directo a la propuesta sin el diagnóstico. Se ahorran 20 minutos y pierden el 60% de sus cierres. El diagnóstico no es una cortesía — es ventas...",
+      insight: "El 'error que todos cometen' genera identificación masiva. El lector piensa 'eso hago yo' — y eso es lo que dispara los comentarios y los compartidos."
     },
     {
-      phase: "El Método · Pregunta 4 de 7",
-      title: "¿Cuál es el resultado concreto que genera este método?",
-      hint: "Números, tiempos, casos. Lo que hace que el método valga la pena.",
-      placeholder: "Ej: Hoy cierro el 70% de mis propuestas y las preparo en 45 minutos. Antes tardaba 3 días y cerraba 1 de 5...",
-      insight: "Sin resultado medible, un método es solo una preferencia. El número concreto es lo que genera credibilidad y hace que otros quieran aplicarlo."
+      phase: "La Prueba",
+      title: "¿Cuál es el resultado más específico y medible que puedes nombrar desde que aplicas esto?",
+      hint: "Un número beats cualquier adjetivo. 'Mucho mejor' no existe — '3x más cierres en 60 días' sí.",
+      placeholder: "Ej: Pasé de cerrar 1 de 5 propuestas a 3 de 5 en 60 días. Y el tiempo de preparación bajó de 3 días a 45 minutos...",
+      insight: "El número concreto es la diferencia entre un post que se lee y un post que se guarda y se comparte. Las personas guardan lo que quieren aplicar."
     },
     {
-      phase: "El Método · Pregunta 5 de 7",
-      title: "¿Cuál es el paso que más gente omite y por qué es crítico?",
-      hint: "El insight no obvio dentro de tu proceso. Lo que marca la diferencia.",
-      placeholder: "Ej: La mayoría omite el diagnóstico previo porque quiere llegar rápido a la propuesta. Ese es exactamente el error...",
-      insight: "El paso contraintuitivo es el corazón del post de método. Es lo que convierte una lista de pasos en un insight real de pensamiento líder."
-    },
-    {
-      phase: "El Método · Pregunta 6 de 7",
-      title: "¿A quién le sirve este método? ¿En qué situación específica?",
-      hint: "Define claramente para quién es — y para quién no.",
-      placeholder: "Ej: Este método funciona para consultores y freelancers que venden servicios de $1,000 o más. No aplica para ventas transaccionales...",
-      insight: "Definir el público específico aumenta la credibilidad, no la reduce. Decir 'esto es para todos' genera desconfianza. La especificidad genera confianza."
-    },
-    {
-      phase: "El Método · Pregunta 7 de 7",
-      title: "¿Cuál sería la primera línea que haría a alguien dejar de scrollear?",
-      hint: "Una promesa concreta o un número impactante. Sin relleno.",
-      placeholder: "Ej: Cierro el 70% de mis propuestas. Aquí está el proceso exacto.",
-      insight: "Los posts de método con un resultado en la primera línea son los más guardados en LinkedIn. El número hace la promesa — el proceso la justifica."
+      phase: "El Anzuelo",
+      title: "¿Cómo describes en una línea el dolor del problema que resuelves — de una manera que haga a alguien pensar 'eso me pasa a mí'?",
+      hint: "Parte del problema, no de la solución. El lector se engancha cuando se siente identificado — no cuando ve una lista de pasos.",
+      placeholder: "Ej: Pasé 3 años preparando propuestas que nadie leía. Hasta que cambié una sola cosa.",
+      insight: "Los posts de método más virales empiezan con el dolor, no con el método. La solución sin el problema no tiene contexto emocional — y sin emoción, no hay scroll."
     }
   ],
   observacion: [
     {
-      phase: "La Observación · Pregunta 1 de 7",
-      title: "¿Qué observaste en otra persona, empresa o situación que te llamó la atención?",
-      hint: "Lo que viste desde afuera. Puede ser algo positivo, negativo, o simplemente diferente.",
-      placeholder: "Ej: Vi a un consultor cobrar 5 veces más que yo por un servicio casi idéntico al mío...",
-      insight: "Las observaciones externas generan curiosidad inmediata. El lector quiere saber qué viste y qué concluiste — esa tensión es lo que lo mantiene leyendo."
+      phase: "El Flash",
+      title: "¿Cuál es la imagen exacta que tienes de ese momento — lo que viste, escuchaste o sentiste?",
+      hint: "Una imagen específica, no un resumen. Dónde estabas, quién estaba ahí, qué pasó.",
+      placeholder: "Ej: Estaba en una conferencia. Vi a un consultor presentar durante 8 minutos. Al terminar, tres personas formaron fila para hablar con él. Yo había hablado 20 minutos y nadie se acercó...",
+      insight: "Una imagen específica es 10x más memorable que un resumen. El lector necesita estar en la escena contigo para que la observación lo impacte."
     },
     {
-      phase: "La Observación · Pregunta 2 de 7",
-      title: "¿Cuál fue tu reacción inicial al observarlo?",
-      hint: "Lo que pensaste o sentiste en el momento — antes de reflexionar.",
-      placeholder: "Ej: Mi primera reacción fue pensar que algo estaba mal. Que era excesivo o injustificado...",
-      insight: "La reacción honesta, especialmente si luego cambias de opinión, crea la tensión narrativa del post. Sin reacción inicial, no hay arco de historia."
+      phase: "El Choque",
+      title: "¿Cuál fue tu primera reacción — incluso si ahora te parece ingenua o equivocada?",
+      hint: "La reacción honesta, no la reflexionada. Especialmente si cambió después — eso crea el arco de la historia.",
+      placeholder: "Ej: Mi primera reacción fue pensar que era injusto. Que yo había dado más información, más valor, más tiempo. ¿Por qué él?...",
+      insight: "La reacción honesta — especialmente si era equivocada — es el gancho humano del post. Nadie conecta con quien siempre tuvo la razón. Conectan con quien tuvo que cambiar."
     },
     {
-      phase: "La Observación · Pregunta 3 de 7",
-      title: "¿Qué entendiste después de observarlo con más detalle?",
-      hint: "El giro en tu perspectiva. Lo que la observación más profunda reveló.",
-      placeholder: "Ej: Al entender cómo presentaba su propuesta, cómo hablaba de resultados y cómo posicionaba su experiencia, entendí que la diferencia era de percepción, no de calidad...",
-      insight: "El cambio de perspectiva es el corazón del post de observación. Muestra que eres capaz de cuestionar tu primera impresión — eso es pensamiento crítico real."
+      phase: "El Giro",
+      title: "¿En qué momento exacto tu perspectiva cambió — y qué lo provocó?",
+      hint: "El instante de claridad. Puede ser una conversación, una pregunta, un detalle que notaste.",
+      placeholder: "Ej: Lo entendí cuando escuché su primera oración: 'Trabajo con empresas que ya saben lo que quieren — solo necesitan a alguien que lo ejecute.' En 12 palabras eliminó objeciones y calificó clientes...",
+      insight: "El giro es el corazón emocional del post. Sin él, tienes una anécdota. Con él, tienes una historia con arco — y los arcos son lo que se comparte."
     },
     {
-      phase: "La Observación · Pregunta 4 de 7",
-      title: "¿Qué principio o patrón revela esta observación?",
-      hint: "La idea más amplia que se desprende de lo que viste. El aprendizaje transferible.",
-      placeholder: "Ej: El precio que cobras no refleja tu valor real — refleja cómo comunicas tu valor. El mercado no adivina lo que no le muestras...",
-      insight: "La observación personal se convierte en pensamiento líder cuando extraes un principio que va más allá del caso específico. Eso es lo que hace que otros lo compartan."
+      phase: "La Verdad",
+      title: "¿Qué principio universal revela esto — que aplica a miles de personas en tu industria?",
+      hint: "Escala lo personal a lo universal. No solo qué aprendiste tú — qué revela esto sobre cómo funciona el mundo.",
+      placeholder: "Ej: La claridad vende más que el volumen. No el que más explica gana — el que más rápido hace entender al cliente que llegó al lugar correcto...",
+      insight: "Escalar lo personal a lo universal es lo que dispara los shares. La gente no comparte historias de otros — comparte ideas que quieren que su red vea."
     },
     {
-      phase: "La Observación · Pregunta 5 de 7",
-      title: "¿Cómo cambió esta observación algo en tu forma de trabajar o pensar?",
-      hint: "La acción o ajuste concreto que tomaste después de entender esto.",
-      placeholder: "Ej: Reescribí completamente cómo presento mis propuestas. Dejé de listar actividades y empecé a hablar solo de resultados...",
-      insight: "Una observación que no genera cambio es solo curiosidad. Mostrar que actuaste en base a lo que viste es lo que valida el aprendizaje."
-    },
-    {
-      phase: "La Observación · Pregunta 6 de 7",
-      title: "¿Quién más debería prestar atención a este patrón?",
-      hint: "Describe a tu lector ideal que necesita ver lo mismo que tú viste.",
-      placeholder: "Ej: Si eres consultor o freelancer y sientes que tus clientes no valoran lo que haces, probablemente no es tu trabajo — es cómo lo estás comunicando...",
-      insight: "Hacer que el lector se vea reflejado en la observación es lo que convierte un post personal en contenido viral. La empatía genera compartidos."
-    },
-    {
-      phase: "La Observación · Pregunta 7 de 7",
-      title: "¿Cuál sería la primera línea que haría a alguien dejar de scrollear?",
-      hint: "Algo que genere curiosidad inmediata sobre qué observaste y por qué importa.",
-      placeholder: "Ej: Vi a alguien cobrar 5 veces más que yo por el mismo trabajo. Tardé una semana en entender por qué tenía razón.",
-      insight: "El gancho de una observación debe crear una pregunta en la mente del lector: '¿qué vio?' o '¿qué aprendió?'. La curiosidad es el combustible del scroll."
+      phase: "El Anzuelo",
+      title: "¿Cómo describes en una línea lo que observaste de una manera que haga a alguien pensar 'nunca lo había visto así'?",
+      hint: "La curiosidad intelectual es el combustible del scroll en LinkedIn. No expliques — provoca la pregunta.",
+      placeholder: "Ej: Vi a alguien hablar 8 minutos y conseguir 3 clientes. Yo hablé 20 y no conseguí ninguno. La diferencia no fue el tiempo.",
+      insight: "El mejor anzuelo de observación crea una pregunta en la mente del lector antes de que termine de leer la primera línea. Esa pregunta es la que hace clic en 'ver más'."
     }
   ]
 };
 
 // Post templates per tone
 const templates = {
-  error: (a) => `${a[7]}
+  error: (a) => `${a[5]}
 
 ———
 
 ${a[1]}
 
-En ese momento tenía sentido: ${lc(a[2])}
+Y tenía todo el sentido: ${lc(a[2])}
 
-Pero ${lc(a[3])}
+El costo real: ${lc(a[3])}
 
-El momento en que me di cuenta fue cuando ${lc(a[4])}
-
-Ahí entendí algo que cambió cómo trabajo:
-
-${a[5]}
-
-Desde ese día, ${lc(a[6])}
-
-———
-
-${a[6] ? '' : ''}Si estás cometiendo el mismo error, probablemente no es falta de talento.
-
-Es falta de estructura.
-
-¿Lo habías visto así?`,
-
-  opinion: (a) => `${a[7]}
-
-———
-
-La narrativa popular dice que ${lc(a[1])}
-
-Y tiene lógica: ${lc(a[2])}
-
-Pero yo lo viví diferente.
-
-${a[3]}
-
-Lo que aprendí: ${lc(a[4])}
-
-${a[5]}
-
-———
-
-${a[6]}
-
-¿Coincides o lo ves diferente?`,
-
-  metodo: (a) => `${a[7]}
-
-———
-
-Durante mucho tiempo, ${lc(a[2])}
-
-El problema: ${lc(a[1])}
-
-Lo que cambió todo fue desarrollar un proceso simple:
-
-${a[3]}
-
-El resultado: ${lc(a[4])}
-
-Lo que la mayoría omite: ${lc(a[5])}
-
-———
-
-${a[6]}
-
-Si aplicas esto consistentemente, los resultados llegan.
-
-¿Cuál de estos pasos ya usas?`,
-
-  observacion: (a) => `${a[7]}
-
-———
-
-Mi primera reacción fue: ${lc(a[2])}
-
-Pero cuanto más lo observé, más claro quedó:
-
-${a[3]}
-
-El patrón que revela esto:
+Lo que aprendí — y que casi nadie me había dicho:
 
 ${a[4]}
 
-Desde que lo entendí, ${lc(a[5])}
+———
+
+Si estás a punto de cometer el mismo error, esta es la señal.
+
+¿Lo habías visto así?`,
+
+  opinion: (a) => `${a[5]}
 
 ———
 
-${a[6]}
+${a[1]}
+
+Lo viví en carne propia: ${lc(a[2])}
+
+La prueba concreta: ${lc(a[3])}
+
+¿Por qué sigue viva esta idea? ${lc(a[4])}
+
+———
+
+Si llevas tiempo siguiendo esta lógica sin resultados, probablemente no es tu ejecución.
+
+Es la premisa.
+
+¿Coincides o lo ves diferente?`,
+
+  metodo: (a) => `${a[5]}
+
+———
+
+Antes: ${lc(a[1])}
+
+Lo que cambió todo:
+
+${a[2]}
+
+Lo que el 95% omite — y que arruina el resultado:
+
+${a[3]}
+
+El resultado concreto: ${lc(a[4])}
+
+———
+
+Si lo aplicas consistentemente, los números cambian.
+
+¿Cuál de estos pasos ya usas — y cuál estás omitiendo?`,
+
+  observacion: (a) => `${a[5]}
+
+———
+
+${a[1]}
+
+Mi primera reacción: ${lc(a[2])}
+
+Pero cuando lo pensé con calma: ${lc(a[3])}
+
+El principio que revela esto:
+
+${a[4]}
+
+———
 
 A veces la lección más importante no viene de tu propia experiencia.
 
@@ -744,16 +674,16 @@ const answers = {};
 
 const lc = s => s ? s.charAt(0).toLowerCase() + s.slice(1) : '';
 
-// Build dots (7 questions + tone selection = 8 steps)
+// Build dots (5 questions + tone selection = 6 steps)
 const dotsEl = document.getElementById('dots');
-for (let i = 0; i < 8; i++) {
+for (let i = 0; i < 6; i++) {
   const d = document.createElement('div');
   d.className = 'dot'; d.id = 'dot' + i;
   dotsEl.appendChild(d);
 }
 
 function syncDots(active) {
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 6; i++) {
     const d = document.getElementById('dot' + i);
     d.className = 'dot' + (i < active ? ' done' : i === active ? ' active' : '');
   }
@@ -770,7 +700,7 @@ function goToTone() {
   showScreen('tone');
   document.getElementById('nav').style.display = 'flex';
   document.getElementById('btnBack').style.visibility = 'visible';
-  document.getElementById('stepPill').innerHTML = 'Paso <strong>1</strong> de 8';
+  document.getElementById('stepPill').innerHTML = 'Paso <strong>1</strong> de 6';
   syncDots(0);
 }
 
@@ -801,8 +731,8 @@ function loadQuestion(idx) {
   ta.style.borderColor = '';
   ta.style.boxShadow = '';
 
-  const stepNum = idx + 2; // tone=1, q1=2...q7=8
-  document.getElementById('stepPill').innerHTML = `Paso <strong>${stepNum}</strong> de 8`;
+  const stepNum = idx + 2; // tone=1, q1=2...q5=6
+  document.getElementById('stepPill').innerHTML = `Paso <strong>${stepNum}</strong> de 6`;
   syncDots(stepNum - 1);
 }
 
@@ -823,7 +753,7 @@ function nextStep() {
       setTimeout(() => { ta.style.borderColor = ''; ta.style.boxShadow = ''; }, 1600);
       return;
     }
-    if (currentQ < 6) {
+    if (currentQ < 4) {
       currentQ++;
       loadQuestion(currentQ);
     } else {
@@ -831,7 +761,7 @@ function nextStep() {
       showScreen('result');
       document.getElementById('nav').style.display = 'none';
       document.getElementById('stepPill').innerHTML = '<strong>✓</strong> Listo';
-      syncDots(8);
+      syncDots(6);
     }
   }
 }
@@ -844,7 +774,7 @@ function prevStep() {
       loadQuestion(currentQ);
     } else {
       showScreen('tone');
-      document.getElementById('stepPill').innerHTML = 'Paso <strong>1</strong> de 8';
+      document.getElementById('stepPill').innerHTML = 'Paso <strong>1</strong> de 6';
       syncDots(0);
     }
   } else if (currentScreen === 'tone') {
@@ -858,7 +788,7 @@ function prevStep() {
 function buildResult() {
   const a = answers[selectedTone];
   const mapped = {};
-  for (let i = 0; i < 7; i++) mapped[i + 1] = a[i] || '';
+  for (let i = 0; i < 5; i++) mapped[i + 1] = a[i] || '';
 
   // Build structure bar
   const struct = structureByTone[selectedTone];
