@@ -172,62 +172,96 @@
     line-height: 1.65; margin-bottom: 28px;
   }
 
-  /* DROPDOWN QUESTIONS */
-  .question-block { margin-bottom: 20px; }
-  .q-label {
-    font-size: 13.5px; font-weight: 400; line-height: 1.5;
-    margin-bottom: 10px; color: var(--text); transition: color 0.2s;
+  /* DROPDOWN-D QUESTIONS */
+  .dq-block { margin-bottom: 10px; }
+
+  .dq-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; padding: 10px 14px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: background 0.2s, border-color 0.2s;
   }
 
-  .custom-select { position: relative; width: 100%; }
+  .dq-row.answered { border-color: transparent; }
 
-  .custom-select select {
-    width: 100%; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 13px 40px 13px 16px;
-    font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 300;
-    color: var(--text); outline: none; cursor: pointer;
-    appearance: none; -webkit-appearance: none;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  .dq-statement {
+    font-size: 12.5px; font-weight: 400; color: var(--text);
+    line-height: 1.4; flex: 1;
   }
 
-  .custom-select select:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px var(--accent-dim);
+  .dq-row.answered .dq-statement { color: var(--text-muted); }
+
+  /* Custom dropdown */
+  .dq-select { position: relative; flex-shrink: 0; }
+
+  .dq-btn {
+    min-width: 170px; padding: 7px 12px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 400;
+    color: var(--text-muted); transition: all 0.15s;
   }
 
-  .custom-select select option { background: #2f2f2f; color: var(--text); }
+  .dq-btn:hover { border-color: var(--border-focus); color: var(--text); }
+  .dq-btn.open { border-color: var(--border-focus); }
 
-  .custom-select::after {
-    content: '';
-    position: absolute; right: 14px; top: 50%;
-    transform: translateY(-50%);
+  .dq-btn-label { flex: 1; }
+
+  .dq-arrow {
     width: 0; height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid var(--text-dim);
-    pointer-events: none;
-    transition: border-top-color 0.2s;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--text-dim);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .dq-btn.open .dq-arrow { transform: rotate(180deg); }
+
+  .dq-menu {
+    display: none; position: absolute; right: 0; top: calc(100% + 5px);
+    min-width: 180px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden; z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
 
-  /* confirmed state */
-  .question-block.confirmed .custom-select select {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-    box-shadow: 0 0 0 1px var(--accent);
-  }
-  .question-block.confirmed .custom-select::after { border-top-color: var(--accent); }
-  .question-block.confirmed .q-label { color: var(--text-muted); }
+  .dq-menu.open { display: block; animation: fadeUp 0.15s ease both; }
 
-  .q-check {
-    display: none; position: absolute; right: 36px; top: 50%;
-    transform: translateY(-50%);
-    width: 16px; height: 16px; background: var(--accent);
-    border-radius: 50%; align-items: center; justify-content: center; z-index: 1;
+  .dq-option {
+    padding: 9px 14px; font-size: 12px; font-weight: 400;
+    cursor: pointer; display: flex; align-items: center; gap: 9px;
+    transition: background 0.12s; color: var(--text);
   }
-  .q-check svg { width: 9px; height: 9px; }
-  .question-block.confirmed .q-check { display: flex; }
 
-  /* CHECKBOX QUESTIONS */
+  .dq-option:hover { background: var(--surface); }
+
+  .dq-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* Color scale */
+  .c-best  { background: #10a37f; }
+  .c-good  { background: #5cb88a; }
+  .c-mid   { background: #e6a817; }
+  .c-low   { background: #e07a40; }
+  .c-worst { background: #e05757; }
+
+  /* Row tint on answered */
+  .dq-row.tint-best  { background: rgba(16,163,127,0.08);  border-color: rgba(16,163,127,0.25); }
+  .dq-row.tint-good  { background: rgba(92,184,138,0.08);  border-color: rgba(92,184,138,0.25); }
+  .dq-row.tint-mid   { background: rgba(230,168,23,0.08);  border-color: rgba(230,168,23,0.25); }
+  .dq-row.tint-low   { background: rgba(224,122,64,0.08);  border-color: rgba(224,122,64,0.25); }
+  .dq-row.tint-worst { background: rgba(224,87,87,0.08);   border-color: rgba(224,87,87,0.25); }
+
+  /* Btn color when selected */
+  .dq-btn.sel-best  { border-color: rgba(16,163,127,0.5);  color: #10a37f; }
+  .dq-btn.sel-good  { border-color: rgba(92,184,138,0.5);  color: #5cb88a; }
+  .dq-btn.sel-mid   { border-color: rgba(230,168,23,0.5);  color: #e6a817; }
+  .dq-btn.sel-low   { border-color: rgba(224,122,64,0.5);  color: #e07a40; }
+  .dq-btn.sel-worst { border-color: rgba(224,87,87,0.5);   color: #e05757; }
+
+    /* CHECKBOX QUESTIONS */
   .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
 
   .checkbox-item {
@@ -498,99 +532,90 @@
 <div class="screen" id="screen-s1">
   <div class="phase-tag">Paso 1 de 4</div>
   <h2 class="screen-title">Alineación de Rol</h2>
-  <p class="screen-hint">¿Tu tiempo va a donde más valor aportas? Responde según lo que realmente ocurre, no lo ideal.</p>
+  <p class="screen-hint">Completa cada afirmación según lo que realmente ocurre.</p>
 
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia bloqueas tiempo para trabajo profundo y enfocado?</div>
-    <div class="custom-select">
-      <select id="q1" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Semanalmente</option>
-        <option value="3">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="1">Raramente</option>
-        <option value="0">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q1">
+      <span class="dq-statement">Bloqueo tiempo para trabajo profundo y enfocado</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q1" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q1">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q1" data-q="q1">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Semanalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Raramente</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia dedicas tiempo a estrategia y visión de largo plazo?</div>
-    <div class="custom-select">
-      <select id="q2" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Semanalmente</option>
-        <option value="3">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="1">Raramente</option>
-        <option value="0">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q2">
+      <span class="dq-statement">Dedico tiempo a estrategia y visión de largo plazo</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q2" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q2">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q2" data-q="q2">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Semanalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Raramente</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <hr class="section-divider"><span class="section-label">Trabajo Operativo</span>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia lideras o asistes a reuniones de equipo programadas?</div>
-    <div class="custom-select">
-      <select id="q3" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Semanalmente</option>
-        <option value="3">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="1">Raramente</option>
-        <option value="0">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q3">
+      <span class="dq-statement">Lidero o asisto a reuniones de equipo programadas</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q3" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q3">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q3" data-q="q3">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Semanalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Raramente</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia orientas a tu equipo para acelerar resultados?</div>
-    <div class="custom-select">
-      <select id="q4" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Semanalmente</option>
-        <option value="3">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="1">Raramente</option>
-        <option value="0">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q4">
+      <span class="dq-statement">Oriento a mi equipo para acelerar resultados</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q4" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q4">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q4" data-q="q4">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Semanalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Raramente</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <hr class="section-divider"><span class="section-label">Fricción</span>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia te sacan de foco problemas inesperados?</div>
-    <div class="custom-select">
-      <select id="q5" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="0">Semanalmente</option>
-        <option value="1">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="3">Raramente</option>
-        <option value="4">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q5">
+      <span class="dq-statement">Me sacan de foco problemas inesperados</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q5" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q5">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q5" data-q="q5">
+<div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Semanalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>Raramente</div><div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia haces tareas que debería hacer tu equipo?</div>
-    <div class="custom-select">
-      <select id="q6" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="0">Semanalmente</option>
-        <option value="1">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="3">Raramente</option>
-        <option value="4">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q6">
+      <span class="dq-statement">Hago tareas que debería hacer mi equipo</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q6" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q6">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q6" data-q="q6">
+<div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Semanalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>Raramente</div><div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -641,95 +666,88 @@
   <h2 class="screen-title">Delegación y Claridad de Equipo</h2>
   <p class="screen-hint">¿Tu equipo opera con autonomía o depende de ti para avanzar?</p>
 
-  <div class="question-block">
-    <div class="q-label">¿Qué tan seguro estás de las decisiones de tu equipo sin tu validación?</div>
-    <div class="custom-select">
-      <select id="q7" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Totalmente — confío plenamente</option>
-        <option value="3">Muy seguro</option>
-        <option value="2">Bastante seguro</option>
-        <option value="1">Algo inseguro</option>
-        <option value="0">Nada — necesito validar todo</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q7">
+      <span class="dq-statement">Confío en las decisiones de mi equipo sin validarlas</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q7" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q7">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q7" data-q="q7">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Totalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>Muy seguro</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Bastante</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Algo inseguro</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nada</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia haces coaching o mentorías a tus reportes directos?</div>
-    <div class="custom-select">
-      <select id="q8" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Semanalmente</option>
-        <option value="3">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="1">Raramente</option>
-        <option value="0">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q8">
+      <span class="dq-statement">Hago coaching o mentorías a mis reportes directos</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q8" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q8">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q8" data-q="q8">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Semanalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Raramente</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <hr class="section-divider"><span class="section-label">Fricción en delegación</span>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia redefines o clarificas responsabilidades del equipo?</div>
-    <div class="custom-select">
-      <select id="q9" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="0">Semanalmente</option>
-        <option value="1">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="3">Raramente</option>
-        <option value="4">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q9">
+      <span class="dq-statement">Redefino o clarifico responsabilidades del equipo</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q9" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q9">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q9" data-q="q9">
+<div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Semanalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>Raramente</div><div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia haces seguimiento de tareas delegadas?</div>
-    <div class="custom-select">
-      <select id="q10" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="4">Semanalmente</option>
-        <option value="3">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="1">Raramente</option>
-        <option value="0">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q10">
+      <span class="dq-statement">Hago seguimiento de tareas delegadas</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q10" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q10">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q10" data-q="q10">
+<div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Semanalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>Raramente</div><div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia tomas decisiones que debería tomar tu equipo?</div>
-    <div class="custom-select">
-      <select id="q11" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="0">Semanalmente</option>
-        <option value="1">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="3">Raramente</option>
-        <option value="4">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q11">
+      <span class="dq-statement">Tomo decisiones que debería tomar mi equipo</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q11" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q11">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q11" data-q="q11">
+<div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Semanalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>Raramente</div><div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="question-block">
-    <div class="q-label">¿Con qué frecuencia rehaces trabajo en lugar de dar feedback?</div>
-    <div class="custom-select">
-      <select id="q12" onchange="confirmBlock(this)">
-        <option value="">Selecciona una opción</option>
-        <option value="0">Semanalmente</option>
-        <option value="1">La mayoría de semanas</option>
-        <option value="2">Ocasionalmente</option>
-        <option value="3">Raramente</option>
-        <option value="4">Nunca</option>
-      </select>
-      <div class="q-check"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="dq-block">
+    <div class="dq-row" id="row-q12">
+      <span class="dq-statement">Rehago trabajo en lugar de dar feedback</span>
+      <div class="dq-select">
+        <div class="dq-btn" id="btn-q12" onclick="toggleDQ(this)">
+          <span class="dq-btn-label" id="lbl-q12">Seleccionar</span>
+          <span class="dq-arrow"></span>
+        </div>
+        <div class="dq-menu" id="menu-q12" data-q="q12">
+<div class="dq-option" data-val="0" data-color="worst" onclick="selectDQ(this)"><span class="dq-dot c-worst"></span>Semanalmente</div><div class="dq-option" data-val="1" data-color="low" onclick="selectDQ(this)"><span class="dq-dot c-low"></span>La mayoría de semanas</div><div class="dq-option" data-val="2" data-color="mid" onclick="selectDQ(this)"><span class="dq-dot c-mid"></span>Ocasionalmente</div><div class="dq-option" data-val="3" data-color="good" onclick="selectDQ(this)"><span class="dq-dot c-good"></span>Raramente</div><div class="dq-option" data-val="4" data-color="best" onclick="selectDQ(this)"><span class="dq-dot c-best"></span>Nunca</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -949,29 +967,64 @@ function toggleCB(el) {
   updateNav();
 }
 
-function confirmBlock(select) {
-  const block = select.closest('.question-block');
-  if (select.value !== '') {
-    block.classList.add('confirmed');
-  } else {
-    block.classList.remove('confirmed');
+// Close all open menus
+function closeAllDQ() {
+  document.querySelectorAll('.dq-menu.open').forEach(m => m.classList.remove('open'));
+  document.querySelectorAll('.dq-btn.open').forEach(b => b.classList.remove('open'));
+}
+
+function toggleDQ(btn) {
+  const isOpen = btn.classList.contains('open');
+  closeAllDQ();
+  if (!isOpen) {
+    btn.classList.add('open');
+    const qid = btn.id.replace('btn-','');
+    document.getElementById('menu-' + qid).classList.add('open');
   }
+}
+
+function selectDQ(option) {
+  const menu = option.closest('.dq-menu');
+  const qid = menu.dataset.q;
+  const val = option.dataset.val;
+  const color = option.dataset.color;
+  const label = option.querySelector('.dq-dot').nextSibling.textContent.trim() || option.textContent.trim();
+  const labelText = option.textContent.trim();
+
+  // Update button
+  const btn = document.getElementById('btn-' + qid);
+  btn.querySelector('.dq-btn-label').textContent = labelText;
+  btn.className = 'dq-btn sel-' + color;
+
+  // Tint row
+  const row = document.getElementById('row-' + qid);
+  row.className = 'dq-row answered tint-' + color;
+
+  // Store value on menu
+  menu.dataset.selected = val;
+
+  closeAllDQ();
   updateNav();
 }
 
+// Close menus on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.dq-select')) closeAllDQ();
+});
+
 function getDropVal(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : '';
+  const menu = document.getElementById('menu-' + id);
+  if (!menu) return '';
+  return menu.dataset.selected || '';
 }
 
 function isSectionComplete(sec) {
   const cfg = sectionConfig[sec];
   if (cfg.dropdowns.length > 0) {
-    return cfg.dropdowns.every(id => getDropVal(id) !== '');
-  }
-  if (cfg.cbGroup) {
-    // checkboxes are optional - always allow continue
-    return true;
+    return cfg.dropdowns.every(id => {
+      const menu = document.getElementById('menu-' + id);
+      return menu ? (menu.dataset.selected !== undefined && menu.dataset.selected !== '') : false;
+    });
   }
   return true;
 }
@@ -1176,8 +1229,9 @@ function copyResult() {
 
 function restart() {
   currentSection = 0;
-  document.querySelectorAll('select').forEach(s => s.value = '');
-  document.querySelectorAll('.question-block').forEach(b => b.classList.remove('confirmed'));
+  document.querySelectorAll('.dq-menu').forEach(m => { delete m.dataset.selected; });
+  document.querySelectorAll('.dq-btn').forEach(b => { b.className = 'dq-btn'; b.querySelector('.dq-btn-label').textContent = 'Seleccionar'; });
+  document.querySelectorAll('.dq-row').forEach(r => { r.className = 'dq-row'; });
   document.querySelectorAll('.checkbox-item').forEach(el => el.classList.remove('checked'));
   showScreen('welcome');
   document.getElementById('nav').style.display = 'none';
