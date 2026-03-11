@@ -375,44 +375,35 @@
   .sbr-fill.wasted { background: #e05757; }
 
   /* FLAGS */
-  .flags-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  /* FLAGS BLOCKS */
+  .flags-blocks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 
-  .flag-card {
-    border-radius: 10px; padding: 16px;
+  .flags-block {
+    border-radius: 10px; padding: 16px 18px;
     border: 1px solid;
   }
-  .flag-card.red { background: var(--red-dim); border-color: rgba(239,68,68,0.25); }
-  .flag-card.green { background: var(--accent-dim); border-color: var(--accent-border); }
+  .flags-block.red {
+    background: var(--red-dim); border-color: rgba(239,68,68,0.25);
+  }
+  .flags-block.green {
+    background: var(--accent-dim); border-color: var(--accent-border);
+  }
 
-  .flag-icon { font-size: 14px; margin-bottom: 8px; }
-  .flag-type {
+  .flags-block-title {
     font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
-    font-weight: 500; margin-bottom: 6px;
+    font-weight: 600; margin-bottom: 10px;
   }
-  .flag-card.red .flag-type { color: #e05757; }
-  .flag-card.green .flag-type { color: var(--accent); }
-  .flag-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+  .flags-block.red .flags-block-title { color: #e05757; }
+  .flags-block.green .flags-block-title { color: var(--accent); }
 
-  /* SECTION BREAKDOWN */
-  .breakdown { margin-bottom: 24px; }
-  .breakdown-title {
-    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
-    color: var(--text-dim); margin-bottom: 14px;
-  }
+  .flags-block-list { display: flex; flex-direction: column; gap: 7px; }
 
-  .section-row {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 16px 18px; margin-bottom: 8px;
+  .flags-block-item {
+    font-size: 12.5px; color: var(--text-muted); line-height: 1.55;
+    font-weight: 300; padding-left: 10px; border-left: 2px solid;
   }
-  .sr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .sr-name { font-size: 13px; font-weight: 500; }
-  .sr-score {
-    font-size: 12px; color: var(--text-muted);
-    background: var(--bg); border: 1px solid var(--border);
-    padding: 3px 10px; border-radius: 99px;
-  }
-  .sr-bar-track { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
-  .sr-bar-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.8s ease; }
+  .flags-block.red .flags-block-item { border-color: rgba(239,68,68,0.4); }
+  .flags-block.green .flags-block-item { border-color: var(--accent-border); }
 
   /* ACTIONS */
   .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 40px; }
@@ -822,12 +813,7 @@
     </div>
   </div>
 
-  <div class="flags-grid" id="flagsGrid"></div>
-
-  <div class="breakdown">
-    <div class="breakdown-title">Resultado por dimensión</div>
-    <div id="sectionBreakdown"></div>
-  </div>
+  <div class="flags-blocks" id="flagsGrid"></div>
 
   <div class="actions">
     <button class="btn-primary" onclick="copyResult()">
@@ -1217,62 +1203,26 @@ function buildResult() {
   const combined  = [...redList.map(t => ({ type: 'red', text: t })),
                      ...greenList.map(t => ({ type: 'green', text: t }))];
 
-  const flagsHtml = combined.map(f => `
-    <div class="flag-card ${f.type}">
-      <div class="flag-icon">${f.type === 'red' ? '⚠️' : '✅'}</div>
-      <div class="flag-type">${f.type === 'red' ? 'Red Flag' : 'Quick Win'}</div>
-      <div class="flag-text">${f.text.replace(/^[⚠️✅]\s*/,'')}</div>
-    </div>
-  `).join('');
-  document.getElementById('flagsGrid').innerHTML = flagsHtml || '<p style="font-size:13px;color:var(--text-muted)">No se detectaron flags destacadas.</p>';
+  let flagsHtml = '';
 
-  // Section breakdown
-  const sectionScores = {};
-  const sectionMax = {};
+  if (redList.length > 0) {
+    const items = redList.map(t =>
+      `<div class="flags-block-item">${t.replace(/^[⚠️]\s*/,'')}</div>`
+    ).join('');
+    flagsHtml += `<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list">${items}</div></div>`;
+  }
 
-  Object.keys(dropMeta).forEach(id => {
-    const s = dropMeta[id].section;
-    sectionScores[s] = (sectionScores[s] || 0) + (parseInt(getDropVal(id)) || 0);
-    sectionMax[s]    = (sectionMax[s] || 0) + 4;
-  });
+  if (greenList.length > 0) {
+    const items = greenList.map(t =>
+      `<div class="flags-block-item">${t.replace(/^[✅]\s*/,'')}</div>`
+    ).join('');
+    flagsHtml += `<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list">${items}</div></div>`;
+  }
 
-  Object.keys(cbData).forEach(cid => {
-    const d = cbData[cid];
-    const s = d.section;
-    const maxV = Math.max(Math.abs(d.worthy), Math.abs(d.whirlwind), Math.abs(d.wasted));
-    sectionMax[s] = (sectionMax[s] || 0) + maxV;
-    if (checkedIds[cid]) {
-      const contrib = d.worthy + d.whirlwind + Math.max(0, d.wasted);
-      sectionScores[s] = (sectionScores[s] || 0) + contrib;
-    }
-  });
+  if (!flagsHtml) flagsHtml = '<p style="font-size:13px;color:var(--text-muted)">No se detectaron flags destacadas.</p>';
+  document.getElementById('flagsGrid').innerHTML = flagsHtml;
 
-  const bkHtml = Object.keys(sectionLabels).map(sec => {
-    const label = sectionLabels[sec];
-    const raw = sectionScores[sec] || 0;
-    const max = sectionMax[sec] || 1;
-    const pct = Math.round(Math.max(0, raw) / max * 100);
-    return `
-      <div class="section-row">
-        <div class="sr-top">
-          <span class="sr-name">${label}</span>
-          <span class="sr-score">${pct}%</span>
-        </div>
-        <div class="sr-bar-track">
-          <div class="sr-bar-fill" style="width:0%" data-pct="${pct}"></div>
-        </div>
-      </div>
-    `;
-  }).join('');
-  document.getElementById('sectionBreakdown').innerHTML = bkHtml;
-
-  setTimeout(() => {
-    document.querySelectorAll('.sr-bar-fill').forEach(el => {
-      el.style.width = el.dataset.pct + '%';
-    });
-  }, 150);
-
-  // Store for copy
+    // Store for copy
   window._resultText = `CEO Time Audit — Skill Selling\n\nCEO Efficiency Index™: ${score}/100\n${arch.label}\n${arch.tagline}\n\nDistribución:\n⚡ Estratégico: ${wp}%\n🌀 Operativo: ${wwp}%\n🔴 Fricción: ${wdp}%`;
 }
 
