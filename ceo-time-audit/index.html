@@ -620,7 +620,7 @@
   </div>
   <div class="dq-block">
     <div class="dq-row" id="row-q5">
-      <span class="dq-statement">Me sacan de foco problemas inesperados</span>
+      <span class="dq-statement">Me sacan de enfoque problemas inesperados</span>
       <div class="dq-select">
         <div class="dq-btn" id="btn-q5" onclick="toggleDQ(this)">
           <span class="dq-btn-label" id="lbl-q5">Seleccionar</span>
@@ -947,27 +947,27 @@ function getRedFlags(dv, cb) {
 
   // 1. Blocks deep work BUT gets pulled off task often
   if (hi('q1') && hi('q5'))
-    flags.push('⚠️ Bloqueas tiempo profundo pero los imprevistos destruyen tu foco.');
+    flags.push('⚠️ El trabajo profundo está bloqueado pero los imprevistos destruyen tu enfoque.');
 
   // 2. Thinks strategically BUT does team's work
   if (hi('q2') && hi('q6'))
-    flags.push('⚠️ Piensas en grande pero sigues haciendo trabajo de tu equipo. Eso anula tu visión.');
+    flags.push('⚠️ El pensamiento estratégico se desperdicia si sigues haciendo el trabajo de tu equipo.');
 
   // 3. Coaches team BUT redoes their work
   if (hi('q8') && hi('q12'))
-    flags.push('⚠️ Haces coaching pero rehaces el trabajo. El feedback reemplaza la corrección.');
+    flags.push('⚠️ Haces coaching al equipo pero sigues rehaciendo su trabajo. Cierra ese bucle.');
 
   // 4. Plans week BUT steps in to fix team issues
   if (cb('c1') && cb('c6'))
-    flags.push('⚠️ Planificas bien pero te metes a rescatar. Tus prioridades se pierden cuando intervienes.');
+    flags.push('⚠️ Las prioridades claras se pierden cuando intervienes a rescatar.');
 
   // 5. Trusts team (Fully/Very) BUT makes their decisions
   if (dv('q7') >= 3 && hi('q11'))
-    flags.push('⚠️ Confías en tu equipo pero sigues tomando sus decisiones. Step back.');
+    flags.push('⚠️ Confías en el equipo pero sigues tomando sus decisiones. Da un paso atrás.');
 
   // 6. Ensures follow-through BUT does team's work
   if (hi('q10') && hi('q6'))
-    flags.push('⚠️ Delegas con seguimiento pero sigues interviniendo. Delegar de verdad significa no rescatar.');
+    flags.push('⚠️ Delegas pero mantienes el control. Suelta para ganar apalancamiento.');
 
   // 7. Reviews P&L BUT rarely clarifies roles
   if (cb('c2') && dv('q9') <= 1)
@@ -975,19 +975,19 @@ function getRedFlags(dv, cb) {
 
   // 8. Coaches team BUT makes their decisions
   if (hi('q8') && hi('q11'))
-    flags.push('⚠️ Desarrollas a tu equipo pero no les confías las decisiones.');
+    flags.push('⚠️ Haces coaching a tu equipo pero no les confías el liderazgo.');
 
   // 9. Protects thinking time BUT starts day reactive
   if (cb('c7') && cb('c5'))
-    flags.push('⚠️ Proteges tiempo para pensar pero empiezas el día en modo reactivo.');
+    flags.push('⚠️ Bloqueas tiempo para pensar pero empiezas el día en modo reactivo.');
 
   // 10. Clarifies roles often BUT starts day reactive
   if (hi('q9') && cb('c5'))
-    flags.push('⚠️ Clarificas roles pero te quemas haciendo demasiado.');
+    flags.push('⚠️ Compartes la visión pero te quemas haciendo demasiado.');
 
   // 11. Has daily priority list BUT always busy with non-strategic urgencies
   if (cb('c9') && cb('c12'))
-    flags.push('⚠️ Empiezas con prioridades claras pero terminas en urgencias no estratégicas.');
+    flags.push('⚠️ Empiezas fuerte pero terminas en trabajo no estratégico. Mantente alineado.');
 
   return flags;
 }
@@ -999,19 +999,19 @@ function getQuickWins(dv, cb) {
 
   // 1. Thinks strategically (Weekly/Most Weeks)
   if (hi('q2'))
-    wins.push('✅ Ya piensas en grande. Construyamos el ritmo de ejecución.');
+    wins.push('✅ Ya estás pensando en grande. Construyamos el ritmo de ejecución.');
 
   // 2. Coaches team (Weekly/Most Weeks)
   if (hi('q8'))
-    wins.push('✅ Estás desarrollando a tus líderes. Convirtamos eso en autonomía real.');
+    wins.push('✅ Estás desarrollando a tus líderes. Lo convertiremos en autonomía real del equipo.');
 
   // 3. Reviews P&L
   if (cb('c2'))
-    wins.push('✅ Revisas los números. Podemos alinearlos al crecimiento.');
+    wins.push('✅ Estás viendo los números. Podemos alinearlos al crecimiento.');
 
   // 4. Plans week
   if (cb('c1'))
-    wins.push('✅ Tu semana tiene estructura. Ahora escala esa consistencia.');
+    wins.push('✅ Tienes un ritmo semanal. Hagámoslo escalable y consistente.');
 
   // 5. Trusts team (Fully/Very)
   if (dv('q7') >= 3)
@@ -1019,7 +1019,7 @@ function getQuickWins(dv, cb) {
 
   // 6. Blocks deep work (Weekly/Most Weeks)
   if (hi('q1'))
-    wins.push('✅ Creas espacio para enfocarte. Protejamos y escalemos eso.');
+    wins.push('✅ Estás creando espacio para enfocarte. Te ayudamos a protegerlo y escalarlo.');
 
   // 7. Clarifies roles (Weekly/Most Weeks)
   if (hi('q9'))
@@ -1248,7 +1248,7 @@ function buildResult() {
   const ctaTexts = {
     80: 'Tus sistemas funcionan y tu tiempo está bien invertido. El siguiente paso es escalar sin perder el control — y eso requiere una estrategia, no más esfuerzo. ¿Listo para construirla?',
     60: 'Estás tomando decisiones correctas pero tu tiempo todavía no refleja tu rol. Con los ajustes correctos puedes recuperar 10+ horas semanales en menos de 90 días. ¿Empezamos?',
-    40: 'Tu energía está repartida en demasiados frentes. El problema no es esfuerzo — es foco. Podemos ayudarte a consolidar tu rol y operar desde donde más impacto tienes. ¿Agendamos?',
+    40: 'Tu energía está repartida en demasiados frentes. El problema no es esfuerzo — es enfoque. Podemos ayudarte a consolidar tu rol y operar desde donde más impacto tienes. ¿Agendamos?',
     0:  'El negocio depende demasiado de ti y eso frena el crecimiento. Hay una salida clara — pero requiere un plan concreto, no más intentos en solitario. ¿Lo construimos juntos?'
   };
   const archBgMap = { 80: 'rgba(16,163,127,0.08)', 60: 'rgba(230,168,23,0.08)', 40: 'rgba(224,122,64,0.08)', 0: 'rgba(224,87,87,0.08)' };
@@ -1312,10 +1312,10 @@ function buildResult() {
   }
 
   if (!redList.length && !greenList.length) {
-    flagsHtml  = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">No se encontraron problemas. Tus respuestas se ven bien.</div></div></div>';
+    flagsHtml  = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">Cuando todo es urgente, nada es estratégico.</div></div></div>';
     flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
   } else if (!redList.length) {
-    flagsHtml = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">No se encontraron problemas. Tus respuestas se ven bien.</div></div></div>' + flagsHtml;
+    flagsHtml = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">Cuando todo es urgente, nada es estratégico.</div></div></div>' + flagsHtml;
   } else if (!greenList.length) {
     flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
   }
