@@ -833,7 +833,7 @@
   <div class="score-card">
       <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
         <div style="font-size:12px;font-weight:600;color:var(--text);letter-spacing:-0.1px;margin-bottom:10px;text-align:center;">CEO Efficiency Index™</div>
-        <div style="font-size:10px;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;">Tu Score</div>
+        <div style="font-size:12px;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;">Tu Score</div>
         <div class="score-arc-wrap">
           <svg viewBox="0 0 130 75" xmlns="http://www.w3.org/2000/svg">
             <!-- semicircle arc: cx=65,cy=70, r=56 -->
@@ -843,7 +843,7 @@
           </svg>
           <div class="arc-score-label">
             <div class="score-num" id="scoreNum">—</div>
-            <div class="score-denom">/ 100</div>
+            <div class="score-denom" id="scoreDenom">/ 100</div>
           </div>
         </div>
       </div>
@@ -1254,6 +1254,8 @@ function buildResult() {
   const archBgMap = { 80: 'rgba(16,163,127,0.08)', 60: 'rgba(230,168,23,0.08)', 40: 'rgba(224,122,64,0.08)', 0: 'rgba(224,87,87,0.08)' };
 
   document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreNum').style.fontSize = score === 100 ? '36px' : (score >= 10 ? '32px' : '32px');
+  document.getElementById('scoreDenom').style.display = score === 100 ? 'none' : '';
   document.getElementById('resultArchetype').textContent = arch.label;
   document.getElementById('resultTagline').textContent = arch.tagline;
 
@@ -1311,13 +1313,19 @@ function buildResult() {
     flagsHtml += `<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list">${items}</div></div>`;
   }
 
+  const defaultRedMsg = score >= 80
+    ? 'No se encontraron problemas. Tus respuestas se ven muy bien.'
+    : 'El problema no es uno — es el sistema completo.';
+  const defaultRedBlock = `<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">${defaultRedMsg}</div></div></div>`;
+  const defaultGreenBlock = '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
+
   if (!redList.length && !greenList.length) {
-    flagsHtml  = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">El problema no es uno — es el sistema completo.</div></div></div>';
-    flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
+    flagsHtml  = defaultRedBlock;
+    flagsHtml += defaultGreenBlock;
   } else if (!redList.length) {
-    flagsHtml = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">El problema no es uno — es el sistema completo.</div></div></div>' + flagsHtml;
+    flagsHtml = defaultRedBlock + flagsHtml;
   } else if (!greenList.length) {
-    flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
+    flagsHtml += defaultGreenBlock;
   }
   document.getElementById('flagsGrid').innerHTML = flagsHtml;
 
