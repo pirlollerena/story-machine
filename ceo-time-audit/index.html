@@ -1312,10 +1312,10 @@ function buildResult() {
   }
 
   if (!redList.length && !greenList.length) {
-    flagsHtml  = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">Cuando todo es urgente, nada es estratégico.</div></div></div>';
+    flagsHtml  = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">El problema no es uno — es el sistema completo.</div></div></div>';
     flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
   } else if (!redList.length) {
-    flagsHtml = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">Cuando todo es urgente, nada es estratégico.</div></div></div>' + flagsHtml;
+    flagsHtml = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">El problema no es uno — es el sistema completo.</div></div></div>' + flagsHtml;
   } else if (!greenList.length) {
     flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
   }
