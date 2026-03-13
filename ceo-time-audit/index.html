@@ -336,27 +336,49 @@
   .btn-primary svg { width: 14px; height: 14px; }
 
   /* RESULT */
-  .result-header { margin-bottom: 32px; }
-  .result-archetype {
-    font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px;
+  .result-header { margin-bottom: 16px; }
+
+  .archetype-block {
+    border-radius: 12px; padding: 20px;
+    border: 1px solid var(--arch-color, var(--accent));
+    background: var(--arch-bg, var(--accent-dim));
+    margin-bottom: 0;
+    transition: background 0.3s, border-color 0.3s;
   }
-  .result-tagline { font-size: 14px; color: var(--text-muted); font-weight: 300; line-height: 1.65; max-width: 500px; }
+
+  .result-archetype {
+    font-size: 26px; font-weight: 700; letter-spacing: -0.5px;
+    margin-bottom: 6px; line-height: 1.2;
+    color: var(--arch-color, var(--accent));
+  }
+
+  .result-tagline {
+    font-size: 12.5px; font-weight: 300; line-height: 1.6;
+    color: var(--text-muted);
+  }
 
   /* SCORE CARD */
   .score-card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 28px; margin-bottom: 24px;
+    border-radius: 14px; padding: 18px 28px; margin-bottom: 24px;
     display: flex; align-items: center; gap: 24px;
   }
 
-  .score-circle {
-    width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    border: 3px solid var(--accent);
-    background: var(--accent-dim);
+  /* SEMICIRCULAR ARC */
+  .score-arc-wrap {
+    position: relative; width: 130px; height: 75px; flex-shrink: 0;
   }
-  .score-num { font-size: 28px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .score-denom { font-size: 11px; color: var(--text-dim); font-weight: 400; }
+  .score-arc-wrap svg { width: 130px; height: 75px; }
+  .arc-bg { fill: none; stroke: var(--border); stroke-width: 8; stroke-linecap: round; }
+  .arc-fill { fill: none; stroke-width: 8; stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease, stroke 0.3s;
+    transform-origin: center; }
+  .arc-score-label {
+    position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+    text-align: center; pointer-events: none; white-space: nowrap;
+  }
+  .score-num { font-size: 32px; font-weight: 700; line-height: 1; color: var(--text); }
+  .score-denom { font-size: 10px; color: var(--text-dim); font-weight: 400; }
 
   .score-details { flex: 1; }
   .score-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
@@ -406,7 +428,22 @@
   .flags-block.green .flags-block-item { border-color: var(--accent-border); }
 
   /* ACTIONS */
-  .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 40px; }
+  .cta-card {
+    margin-bottom: 16px; padding-top: 8px;
+  }
+  .cta-label {
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 600; color: var(--text); margin-bottom: 10px;
+  }
+  .cta-text {
+    font-size: 13.5px; color: var(--text-muted); line-height: 1.7;
+    font-weight: 300; margin: 0 0 20px 0;
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; width: 100%; justify-content: center;
+    box-sizing: border-box;
+  }
 
   .btn-copy {
     background: var(--surface); border: 1px solid var(--border); padding: 11px 22px;
@@ -787,17 +824,31 @@
 <div class="screen" id="screen-result">
   <div class="result-header">
     <div class="phase-tag">Tu diagnóstico</div>
-    <div class="result-archetype" id="resultArchetype"></div>
-    <div class="result-tagline" id="resultTagline"></div>
+    <div class="archetype-block" id="archetypeBlock">
+      <div class="result-archetype" id="resultArchetype"></div>
+      <div class="result-tagline" id="resultTagline"></div>
+    </div>
   </div>
 
   <div class="score-card">
-    <div class="score-circle">
-      <div class="score-num" id="scoreNum">—</div>
-      <div class="score-denom">/ 100</div>
-    </div>
-    <div class="score-details">
-      <div class="score-label">CEO Efficiency Index™ — Distribución de tiempo</div>
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);letter-spacing:-0.1px;margin-bottom:10px;text-align:center;">CEO Efficiency Index™</div>
+        <div style="font-size:10px;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;">Tu Score</div>
+        <div class="score-arc-wrap">
+          <svg viewBox="0 0 130 75" xmlns="http://www.w3.org/2000/svg">
+            <!-- semicircle arc: cx=65,cy=70, r=56 -->
+            <path class="arc-bg" d="M9,70 A56,56 0 0,1 121,70"/>
+            <path class="arc-fill" id="arcFill" d="M9,70 A56,56 0 0,1 121,70" stroke="var(--accent)"
+              stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
+          </svg>
+          <div class="arc-score-label">
+            <div class="score-num" id="scoreNum">—</div>
+            <div class="score-denom">/ 100</div>
+          </div>
+        </div>
+      </div>
+      <div class="score-details" style="flex:1;min-width:0;padding-top:0;border-left:1px solid var(--border);padding-left:24px;align-self:center;">
+        <div class="score-label" style="font-size:10px;">Distribución de tiempo</div>
       <div class="score-bar-row">
         <div class="sbr-top"><span class="sbr-name">⚡ Estratégico</span><span class="sbr-pct" id="pctWorthy">—</span></div>
         <div class="sbr-track"><div class="sbr-fill worthy" id="barWorthy" style="width:0%"></div></div>
@@ -810,21 +861,21 @@
         <div class="sbr-top"><span class="sbr-name">🔴 Fricción</span><span class="sbr-pct" id="pctWasted">—</span></div>
         <div class="sbr-track"><div class="sbr-fill wasted" id="barWasted" style="width:0%"></div></div>
       </div>
-    </div>
+      </div>
   </div>
 
   <div class="flags-blocks" id="flagsGrid"></div>
 
-  <div class="actions">
-    <button class="btn-primary" onclick="copyResult()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      Copiar diagnóstico
-    </button>
-    <button class="btn-ghost" onclick="restart()">Reiniciar</button>
-    <div class="copied-msg" id="copiedMsg">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><polyline points="20,6 9,17 4,12"/></svg>
-      Copiado
-    </div>
+  <div class="cta-card" id="ctaCard">
+    <div class="cta-label">Tu próximo paso</div>
+    <p class="cta-text" id="ctaText"></p>
+    <a class="btn-primary cta-btn" href="https://cal.com/skillselling/1" target="_blank">
+      Agenda tu sesión estratégica
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div style="text-align:center;margin-bottom:40px;">
+    <button class="btn-restart" onclick="restart()">Reiniciar diagnóstico</button>
   </div>
 </div>
 
@@ -978,10 +1029,10 @@ function getQuickWins(dv, cb) {
 }
 
 const archetypes = [
-  { min: 80, label: '✅ CEO Escalable', tagline: 'Lideras con estrategia y dedicas tu tiempo a lo que más importa. Tus sistemas funcionan — ahora escálalos.' },
-  { min: 60, label: '⚡ Operador Estratégico', tagline: 'Lideras bien pero con fricción. Afina tus hábitos y alinea tu calendario con tus prioridades reales.' },
-  { min: 40, label: '😐 Líder Estirado', tagline: 'Vas bien pero sigues en las trincheras. Empodera a tu equipo y protege tu tiempo estratégico.' },
-  { min: 0,  label: '🙁 Cuello de Botella', tagline: 'Estás atrapado en la ejecución y frenando el crecimiento. Delega, construye confianza y diseña mejores sistemas.' }
+  { min: 80, label: 'CEO Escalable',        tagline: 'Lideras con estrategia y dedicas tu tiempo a lo que más importa. Tus sistemas funcionan — ahora escálalos.', color: '#10a37f' },
+  { min: 60, label: 'Operador Estratégico', tagline: 'Lideras bien pero con fricción. Afina tus hábitos y alinea tu calendario con tus prioridades reales.',       color: '#e6a817' },
+  { min: 40, label: 'Líder Disperso',       tagline: 'Vas bien pero sigues en las trincheras. Empodera a tu equipo y protege tu tiempo estratégico.',               color: '#e07a40' },
+  { min: 0,  label: 'Cuello de Botella',    tagline: 'Estás atrapado en la ejecución y frenando el crecimiento. Delega, construye confianza y diseña mejores sistemas.', color: '#e05757' }
 ];
 
 const sectionLabels = {
@@ -1064,6 +1115,17 @@ function selectDQ(option) {
 
   closeAllDQ();
   updateNav();
+
+  // Auto-advance on s1 and s3 when all 6 dropdowns answered
+  const currentSec = SECTIONS[currentSection];
+  if (currentSec === 's1' || currentSec === 's3') {
+    if (isSectionComplete(currentSec)) {
+      setTimeout(() => {
+        // Only advance if still on the same section (user hasn't navigated away)
+        if (SECTIONS[currentSection] === currentSec) nextStep();
+      }, 1000);
+    }
+  }
 }
 
 // Close menus on outside click
@@ -1178,14 +1240,44 @@ function buildResult() {
   // Archetype
   const arch = archetypes.find(a => score >= a.min) || archetypes[archetypes.length - 1];
 
+  // Archetype color by tier
+  const archColors = { 80: '#10a37f', 60: '#e6a817', 40: '#e07a40', 0: '#e05757' };
+  const archColor = archColors[arch.min];
+
+  // CTA text per archetype
+  const ctaTexts = {
+    80: 'Tus sistemas funcionan y tu tiempo está bien invertido. El siguiente paso es escalar sin perder el control — y eso requiere una estrategia, no más esfuerzo. ¿Listo para construirla?',
+    60: 'Estás tomando decisiones correctas pero tu tiempo todavía no refleja tu rol. Con los ajustes correctos puedes recuperar 10+ horas semanales en menos de 90 días. ¿Empezamos?',
+    40: 'Tu energía está repartida en demasiados frentes. El problema no es esfuerzo — es foco. Podemos ayudarte a consolidar tu rol y operar desde donde más impacto tienes. ¿Agendamos?',
+    0:  'El negocio depende demasiado de ti y eso frena el crecimiento. Hay una salida clara — pero requiere un plan concreto, no más intentos en solitario. ¿Lo construimos juntos?'
+  };
+  const archBgMap = { 80: 'rgba(16,163,127,0.08)', 60: 'rgba(230,168,23,0.08)', 40: 'rgba(224,122,64,0.08)', 0: 'rgba(224,87,87,0.08)' };
+
   document.getElementById('scoreNum').textContent = score;
   document.getElementById('resultArchetype').textContent = arch.label;
   document.getElementById('resultTagline').textContent = arch.tagline;
+
+  const archetypeEl = document.getElementById('archetypeBlock');
+  archetypeEl.style.borderColor = archColor;
+  archetypeEl.style.background = archBgMap[arch.min];
+  archetypeEl.style.setProperty('--arch-color', archColor);
+  archetypeEl.style.setProperty('--arch-bg', archBgMap[arch.min]);
+
+  document.getElementById('ctaText').textContent = ctaTexts[arch.min];
 
   // Bars
   const wp  = Math.round(worthyPct * 100);
   const wwp = Math.round(whirlwindPct * 100);
   const wdp = Math.round(wastedPct * 100);
+  // Animate arc — total arc length ~144.5px (semicircle r=46)
+  const arcEl = document.getElementById('arcFill');
+  const arcLen = 175.9;
+  arcEl.style.strokeDashoffset = arcLen;
+  arcEl.style.stroke = archColor;
+  setTimeout(() => {
+    arcEl.style.strokeDashoffset = arcLen * (1 - score / 100);
+  }, 150);
+
   setTimeout(() => {
     document.getElementById('barWorthy').style.width    = wp + '%';
     document.getElementById('barWhirlwind').style.width = wwp + '%';
@@ -1219,7 +1311,14 @@ function buildResult() {
     flagsHtml += `<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list">${items}</div></div>`;
   }
 
-  if (!flagsHtml) flagsHtml = '<p style="font-size:13px;color:var(--text-muted)">No se detectaron flags destacadas.</p>';
+  if (!redList.length && !greenList.length) {
+    flagsHtml  = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">No se encontraron problemas. Tus respuestas se ven bien.</div></div></div>';
+    flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
+  } else if (!redList.length) {
+    flagsHtml = '<div class="flags-block red"><div class="flags-block-title">Red Flags</div><div class="flags-block-list"><div class="flags-block-item">No se encontraron problemas. Tus respuestas se ven bien.</div></div></div>' + flagsHtml;
+  } else if (!greenList.length) {
+    flagsHtml += '<div class="flags-block green"><div class="flags-block-title">Quick Wins</div><div class="flags-block-list"><div class="flags-block-item">Todo CEO necesita un sistema. Construyamos uno que escale contigo.</div></div></div>';
+  }
   document.getElementById('flagsGrid').innerHTML = flagsHtml;
 
     // Store for copy
